@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class GetPage {
   @GetMapping("home")
   public String home() {
-   return "index";
+   return "room";
   }
-
   @GetMapping("login")
   public String login() {
    return "login";
