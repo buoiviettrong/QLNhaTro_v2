@@ -1,11 +1,14 @@
 package com.Nixagh.Learn.common.utilities;
 
-public class Token {
-  public static String createToken(String username, String password, String Time) {
-    // generation token
-    String str = "";
+import java.security.SecureRandom;
+import java.util.Base64;
 
-    // return
-    return username + ":" + password + ":" + Time;
+public class Token {
+  static SecureRandom secureRandom = new SecureRandom();
+  private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
+  public static final String generateToken() {
+    byte[] randomBytes = new byte[24];
+    secureRandom.nextBytes(randomBytes);
+    return base64Encoder.encodeToString(randomBytes);
   }
 }

@@ -1,7 +1,9 @@
 package com.Nixagh.Learn.common.process;
 
+import com.Nixagh.Learn.KCP.Authorized.AuthorizedProcess.AuthorizedProcess;
 import com.Nixagh.Learn.KCP.userSearch.dto.UserSearchResponse;
 import com.Nixagh.Learn.common.database.DBAccessor;
+import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public abstract class AbsProcess {
 
 		checkAuth(mongoTemplate, request, response);
 
+		if(response.getErrorList().size() > 0) return response;
+
 		beforeProcess(request, response);
 		process(mongoTemplate, request, response);
 		afterProcess(request, response);
@@ -44,15 +48,8 @@ public abstract class AbsProcess {
 	};
 
 	public AbsResponse checkAuth(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
-		String token = request.accessInfo.token;
-
-		Date date = new Date();
-		Time time = new Time(date.getTime());
-
-		System.out.println(date);
-		System.out.println(time.toString());
-
+		AuthorizedProcess authorization = new AuthorizedProcess();
+		if(!authorization.authorize(mongoTemplate, request)) response.addError(new errorDto("Author", "You are not authorized"));
 		return response;
 	}
-
 }

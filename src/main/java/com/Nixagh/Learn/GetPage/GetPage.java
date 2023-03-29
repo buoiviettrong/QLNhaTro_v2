@@ -9,4 +9,15 @@ public class GetPage {
   public String home() {
    return "index";
   }
+
+  @GetMapping("login")
+  public String login() {
+   return "login";
+  }
+
+  @GetMapping("errorPage")
+  public String errorPage() {
+   return "errorPage";
+  }
+
 }

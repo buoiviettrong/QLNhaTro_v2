@@ -1,11 +1,7 @@
-const getRequest = () => {
-  return {
-    accessInfo: {
-      userId: '9999',
-      token: '9999'
-    }
-  }
-}
+const init = (async () => {
+  await checkAuth();
+})()
+
 const CreateNewUser = async () => {
   const request = getRequest();
   request['userCreateDto'] = {
@@ -24,10 +20,7 @@ const CreateNewUser = async () => {
   try {
     const response = await callAPI('userCreate', request);
 
-    if(response.errorList !== undefined && response.errorList.length > 0) {
-      alert(response.errorList[0].errorMsg);
-      return;
-    }
+    if(checkError(response)) return;
 
     console.log(response.rows);
 
@@ -45,10 +38,7 @@ const Search = async () => {
   try {
     const response = await callAPI('userSearch', request);
 
-    if(response.errorList !== undefined && response.errorList.length > 0) {
-      alert(response.errorList[0].errorMsg);
-      return;
-    }
+    if(checkError(response)) return;
 
     console.log(response.rows);
 
@@ -57,3 +47,8 @@ const Search = async () => {
   }
 
 }
+
+
+
+
+// init();

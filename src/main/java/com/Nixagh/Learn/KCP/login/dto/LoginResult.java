@@ -7,4 +7,5 @@ public class LoginResult extends AbsDto {
   public String username;
   public String id;
   public String password;
+  public String timestamp;
 }

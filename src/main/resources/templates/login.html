@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div class="container-login">
+    <label for="username">UserName: </label>
+    <input id="username" type="text" placeholder="Username">
+    <p class="message username" style="display: none" id="message_username"></p>
+    <label for="password">UserName: </label>
+    <input id="password" type="text" placeholder="Username">
+    <p class="message password" style="display: none" id="message_password"></p>
+    <button id="login" onclick="Login()">Login</button>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios@1.3.4/dist/axios.min.js"></script>
+  <script type="application/javascript" src="/JS/webService.js"></script>
+  <script type="application/javascript" src="/JS/Controllers/login.js"></script>
+</body>
+</html>
