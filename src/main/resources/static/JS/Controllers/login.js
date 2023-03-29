@@ -1,8 +1,8 @@
 const check = (request) => {
   const username = request.loginInfo.username;
   const password = request.loginInfo.password;
-  const msg_username = document.getElementById('message_username');
-  const msg_password = document.getElementById('message_password');
+  const msg_username = document.getElementById('username-feedback');
+  const msg_password = document.getElementById('password-feedback');
   msg_username.style.display = 'none';
   msg_password.style.display = 'none';
 
@@ -37,9 +37,9 @@ const Login = async () => {
   if(!check(request)) return;
 
   const response = await callAPI('Login', request);
-  if (checkError(response)) return;
+  if (checkError(response.data)) return;
 
   alert("Login successful !!!");
   localStorage.setItem('loginInfo', JSON.stringify(response.loginResult));
-  window.location = `${baseUrls}/home`;
+  navigateTo('home');
 }

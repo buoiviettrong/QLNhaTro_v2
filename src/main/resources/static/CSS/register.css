@@ -1,0 +1,43 @@
+.register-form {
+  background-color: var(--main-white-background);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+}
+
+.register-form .header {
+  background-color: var(--main-cyan-background);
+  text-transform: uppercase;
+  text-align: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--main-text);
+  border-radius: 12px 12px 0 0;
+}
+
+.register-form .body label{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.register-form .body .help-block {
+  color: var(--main-error-color);
+  display: none;
+}
+
+.register-form .body .form-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.register-form .navigate {
+  border-style: dot-dash;
+}
+
+span {
+  margin-left: 3px;
+  margin-right: 3px;
+}

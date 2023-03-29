@@ -20,4 +20,26 @@ public class GetPage {
    return "errorPage";
   }
 
+  @GetMapping("register")
+  public String register() {
+   return "register";
+  }
+  @GetMapping("room")
+  public String room() {
+   return "room";
+  }
+  @GetMapping("customer")
+  public String customer() {
+   return "customer";
+  }
+  @GetMapping("receipt")
+  public String admin() {
+   return "receipt";
+  }
+  @GetMapping("priceCal")
+  public String priceCal() {
+   return "priceCal";
+  }
+
+
 }

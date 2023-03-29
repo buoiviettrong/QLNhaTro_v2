@@ -1,8 +1,7 @@
 const baseUrls = `http://localhost:5000`;
 
 const callAPI = async (funcName, req) => {
-  const response = await axios.post(`${baseUrls}/${funcName}`, req);
-  return await response.data;
+  return await axios.post(`${baseUrls}/${funcName}`, req);;
 }
 
 const checkError = (res) => {
@@ -34,4 +33,8 @@ const checkAuth = async () => {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
   }
+}
+
+const navigateTo = (to) => {
+  window.location = `${baseUrls}/${to}`;
 }

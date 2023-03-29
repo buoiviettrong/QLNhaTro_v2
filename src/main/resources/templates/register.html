@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link href="/CSS/register.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragment/header :: header"></div>
+<div class="container register-form w-50">
+  <div class="row header mb-4 p-3 fs-3">REGISTER</div>
+  <div class="row body mb-4">
+    <div class="col-4 image">
+      <img height="300px" src="https://nhatro123.com/pictures/picfullsizes/2023/03/29/tublkt1680068675.jpg"/>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username" placeholder="Username" type="text">
+            <span class="help-block" th:text="'Username is required.'" id="h-username"></span>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" id="password" placeholder="Password" type="password">
+            <span class="help-block" th:text="'Password is required.'" id="h-password"></span>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input class="form-control" id="confirm-password" placeholder="Confirm Password" type="password">
+            <span class="help-block" th:text="'Confirm Password is required.'" id="h-confirm-password"></span>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" id="email" placeholder="Email" type="email">
+            <span class="help-block" th:text="'Email is required.'" id="h-email"></span>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input class="form-control" id="phone" placeholder="Phone" type="tel">
+            <span class="help-block" th:text="'Phone Number is required.'" id="h-phone"></span>
+          </div>
+        </div>
+      </div>
+      <div class="row footer mt-4">
+        <div class="col-8 navigate">
+          <span>Bạn Đã Có Tài Khoản</span><a href="/login">Nhấp Vào Đây</a><span>Để Đăng Nhập</span>
+        </div>
+        <button class="col btn btn-primary me-3" onclick="Register()">Đăng Ký</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div th:replace="fragment/footer :: footer"></div>
+<script type="application/javascript" src="/JS/Controllers/register.js"></script>
+</body>
+</html>
