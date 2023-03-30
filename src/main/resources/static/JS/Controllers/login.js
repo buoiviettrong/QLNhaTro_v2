@@ -40,6 +40,6 @@ const Login = async () => {
   if (checkError(response.data)) return;
 
   alert("Login successful !!!");
-  localStorage.setItem('loginInfo', JSON.stringify(response.loginResult));
+  localStorage.setItem('loginInfo', JSON.stringify(response.data.loginResult));
   navigateTo('home');
 }

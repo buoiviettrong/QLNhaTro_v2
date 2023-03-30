@@ -1,7 +1,7 @@
 const baseUrls = `http://localhost:5000`;
 
 const callAPI = async (funcName, req) => {
-  return await axios.post(`${baseUrls}/${funcName}`, req);;
+  return await axios.post(`${baseUrls}/${funcName}`, req);
 }
 
 const checkError = (res) => {
@@ -13,11 +13,13 @@ const checkError = (res) => {
 }
 
 const getRequest = () => {
-  const { id, token } = getAccessInfo();
-  return {
-    accessInfo: {
-      userId: id,
-      token: token
+  if(localStorage.getItem("loginInfo") !== null && localStorage.getItem("loginInfo") !== undefined) {
+    const { id, token } = getAccessInfo();
+    return {
+      accessInfo: {
+        userId: id,
+        token: token
+      }
     }
   }
 }
@@ -28,6 +30,10 @@ const getAccessInfo = () => {
 
 const checkAuth = async () => {
   const request = getRequest();
+  if(request == undefined) {
+    alert("You are not authorized to access this page.");
+    window.location = `${baseUrls}/login`;
+  }
   const response = await callAPI('Authorized', request);
   if(!response) {
     alert("You are not authorized to access this page.");

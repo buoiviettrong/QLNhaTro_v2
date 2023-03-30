@@ -40,7 +40,6 @@ const clearMessage = () => {
 }
 
 const checkValues = (request) => {
-  console.log("voo nay");
   const {h_username, h_password, h_confirm_password, h_email, h_phone} = clearMessage();
   let flg = true;
 
