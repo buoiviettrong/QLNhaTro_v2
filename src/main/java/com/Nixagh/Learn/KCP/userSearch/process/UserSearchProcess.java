@@ -42,7 +42,7 @@ public class UserSearchProcess extends AbsProcess{
 	protected void afterProcess(AbsRequest request, AbsResponse response) {}
 
 	@Override
-	protected UserSearchResponse createNewResponse(AbsRequest request) {
+	protected UserSearchResponse createNewResponse() {
 		return new UserSearchResponse();
 	}
 }

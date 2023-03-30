@@ -19,6 +19,10 @@ const getRequest = () => {
       accessInfo: {
         userId: id,
         token: token
+      },
+      pageInfo: {
+        pageNum: 1,
+        displayNum: 10
       }
     }
   }
@@ -43,4 +47,11 @@ const checkAuth = async () => {
 
 const navigateTo = (to) => {
   window.location = `${baseUrls}/${to}`;
+}
+
+const GetModal = (name) => {
+  const modal = fetch(`modal/${name}`);
+  return modal
+          .then(response => response.text())
+          .then(data => data);
 }

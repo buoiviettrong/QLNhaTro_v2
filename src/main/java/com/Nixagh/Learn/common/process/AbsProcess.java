@@ -20,7 +20,7 @@ public abstract class AbsProcess {
 	}
 
 	public AbsResponse execute(MongoTemplate mongoTemplate, AbsRequest request) {
-		AbsResponse response = createNewResponse(request);
+		AbsResponse response = createNewResponse();
 
 		if(mongoTemplate == null) mongoTemplate = DBAccessor.getDBAccessor();
 
@@ -43,7 +43,7 @@ public abstract class AbsProcess {
 	protected void beforeProcess(AbsRequest request,
 			AbsResponse response) {};
 
-	protected AbsResponse createNewResponse(AbsRequest request) {
+	protected AbsResponse createNewResponse() {
 		return new AbsResponse();
 	};
 

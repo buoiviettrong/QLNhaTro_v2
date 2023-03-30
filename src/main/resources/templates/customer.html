@@ -5,8 +5,23 @@
   <title>Customer</title>
 </head>
 <body>
-<div th:replace="fragment/header :: header"></div>
-<div th:replace="fragment/navbar :: navbar"></div>
-<div th:replace="fragment/footer :: footer"></div>
+  <div th:replace="fragment/header :: header"></div>
+  <div id="modal"></div>
+  <div th:replace="fragment/navbar :: navbar"></div>
+  <div class="main-content">
+    <div class="header d-flex justify-content-between mb-4">
+      <div class="search input-group w-50">
+        <input type="text" class="form-control w-75" placeholder="Tên Khách, Tên Phòng, Số Căn Cước, ...." id="search-input">
+        <button id="search-button" type="button" class="btn btn-primary w-25" onclick="Search()">Search</button>
+      </div>
+      <div class="create-new-customer">
+        <button id="create-new-customer-button" class="btn btn-create" onclick="OpenModal('customerCreateModal')">Tạo Mới Khách Hàng</button>
+      </div>
+    </div>
+    <table id="grid" class="table table-bordered"></table>
+  </div>
+  <div th:replace="fragment/footer :: footer"></div>
+  <script type="application/javascript" src="/JS/Controllers/customer.js"></script>
+  <script type="application/javascript" src="/JS/Controllers/customerCreate.js"></script>
 </body>
 </html>

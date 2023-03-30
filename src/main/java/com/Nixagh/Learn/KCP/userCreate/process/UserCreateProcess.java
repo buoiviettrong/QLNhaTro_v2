@@ -54,7 +54,7 @@ public class UserCreateProcess extends AbsProcess {
   }
 
   @Override
-  protected UserCreateResponse createNewResponse(AbsRequest request) {
+  protected UserCreateResponse createNewResponse() {
     return new UserCreateResponse();
   }
 }
