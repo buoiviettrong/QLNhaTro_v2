@@ -82,7 +82,7 @@ const Register = async () => {
   const result = checkValues(request);
   if(result) {
     const response = await callAPI('register', request);
-    if(checkError(response.data)) return;
+    if(checkError(response)) return;
     alert("Đăng ký thành công !!!");
     navigateTo('login');
   }

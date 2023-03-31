@@ -22,8 +22,6 @@ const CreateNewUser = async () => {
 
     if(checkError(response)) return;
 
-    console.log(response.rows);
-
   } catch (err) {
     alert(err.message);
   }
@@ -40,7 +38,6 @@ const Search = async () => {
 
     if(checkError(response)) return;
 
-    console.log(response.rows);
 
   } catch (err) {
     alert(err.message);

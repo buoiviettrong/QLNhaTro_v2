@@ -22,25 +22,28 @@ public abstract class AbsProcess {
 	public AbsResponse execute(MongoTemplate mongoTemplate, AbsRequest request) {
 		AbsResponse response = createNewResponse();
 
-		if(mongoTemplate == null) mongoTemplate = DBAccessor.getDBAccessor();
+		if(mongoTemplate == null) mongoTemplate = DBAccessor.getInstance();
 
 		checkAuth(mongoTemplate, request, response);
 
 		if(response.getErrorList().size() > 0) return response;
 
-		beforeProcess(request, response);
+		beforeProcess(mongoTemplate, request, response);
+		if (response.getErrorList().size() > 0) return response;
+
 		process(mongoTemplate, request, response);
-		afterProcess(request, response);
+
+		afterProcess(mongoTemplate, request, response);
 			
 		return response;
 	}
 
-	protected void afterProcess(AbsRequest request,
+	protected void afterProcess(MongoTemplate mongoTemplate, AbsRequest request,
 			AbsResponse response){};
 
 	protected AbsResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {return null;};
 
-	protected void beforeProcess(AbsRequest request,
+	protected void beforeProcess(MongoTemplate mongoTemplate, AbsRequest request,
 			AbsResponse response) {};
 
 	protected AbsResponse createNewResponse() {

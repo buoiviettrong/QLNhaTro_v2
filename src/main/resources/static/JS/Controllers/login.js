@@ -37,9 +37,9 @@ const Login = async () => {
   if(!check(request)) return;
 
   const response = await callAPI('Login', request);
-  if (checkError(response.data)) return;
+  if (checkError(response)) return;
 
   alert("Login successful !!!");
-  localStorage.setItem('loginInfo', JSON.stringify(response.data.loginResult));
+  localStorage.setItem('loginInfo', JSON.stringify(response.loginResult));
   navigateTo('home');
 }

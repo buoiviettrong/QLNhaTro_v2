@@ -13,10 +13,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 public class UserSearchProcess extends AbsProcess{
-
-	@Override
-	protected void beforeProcess(AbsRequest request, AbsResponse response) {}
-	
 	@Override
 	public UserSearchResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
 		UserSearchRequest userSearchRequest = (UserSearchRequest) request;
@@ -36,11 +32,6 @@ public class UserSearchProcess extends AbsProcess{
 		// Return
 		return userSearchResponse;
 	}
-	
-	
-	@Override
-	protected void afterProcess(AbsRequest request, AbsResponse response) {}
-
 	@Override
 	protected UserSearchResponse createNewResponse() {
 		return new UserSearchResponse();

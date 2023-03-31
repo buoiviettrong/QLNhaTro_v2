@@ -1,7 +1,15 @@
 const baseUrls = `http://localhost:5000`;
 
 const callAPI = async (funcName, req) => {
-  return await axios.post(`${baseUrls}/${funcName}`, req);
+  const response = await fetch(`${baseUrls}/${funcName}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'charset': 'charset=utf-8',
+    },
+    body: JSON.stringify(req)
+  })
+  return response.json();
 }
 
 const checkError = (res) => {
@@ -34,15 +42,18 @@ const getAccessInfo = () => {
 
 const checkAuth = async () => {
   const request = getRequest();
-  if(request == undefined) {
+  if(request.accessInfo == undefined) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
+    return false;
   }
   const response = await callAPI('Authorized', request);
   if(!response) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
+    return false;
   }
+  return true;
 }
 
 const navigateTo = (to) => {

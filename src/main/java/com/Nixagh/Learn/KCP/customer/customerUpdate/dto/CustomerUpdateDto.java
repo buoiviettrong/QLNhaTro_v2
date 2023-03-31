@@ -1,8 +1,9 @@
-package com.Nixagh.Learn.KCP.customer.customerCreate.dto;
+package com.Nixagh.Learn.KCP.customer.customerUpdate.dto;
 
 import com.Nixagh.Learn.common.dto.AbsDto;
 
-public class CustomerCreateDto extends AbsDto {
+public class CustomerUpdateDto extends AbsDto {
+  public String id;
   public String customerName;
   public int gender;
   public String birthDate;
@@ -10,8 +11,7 @@ public class CustomerCreateDto extends AbsDto {
   public String nationalId;
   public String phoneNumber;
   public String emailAddress;
-  public String userId;
-  public String roomId = "";
   public String roomName = "";
-
+  public String roomId;
+  public int statusChangeNationalId = 0;
 }

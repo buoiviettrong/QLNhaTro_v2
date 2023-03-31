@@ -55,17 +55,16 @@ const _getRequest = () => {
 }
 const CreateNewCustomer = async () => {
   const getRequest_customer_create = _getRequest();
-  console.log(getRequest_customer_create);
   if(!check_value(getRequest_customer_create)) return;
 
   const request = getRequest();
   request['customerCreateDto'] = getRequest_customer_create;
-  console.log(request);
   try {
     const response = await callAPI('customerCreate', request);
-    if(checkError(response.data)) return;
+    if(checkError(response)) return;
     alert("Customer created successfully");
     ToggleModal('none');
+    await loadGrid();
   } catch (err) {
     alert("Error Outside System");
   }

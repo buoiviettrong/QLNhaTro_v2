@@ -1,6 +1,6 @@
 const init = (async () => {
-  await checkAuth();
-  createLayout(getColumnInfo(), getSearch());
+   await checkAuth();
+   await loadGrid();
 })()
 let column;
 const getColumnInfo = () => {
@@ -52,21 +52,40 @@ const getColumnInfo = () => {
   column.width = "";
   headers.push(column);
 
-  // roomId
+  // phoneNumber
   column = new columnInfo();
-  column.title = "Phòng Đang Ở";
-  column.name = "roomId";
+  column.title = "Số Liên Hệ";
+  column.name = "phoneNumber";
   column.dataType = "";
-  column.align = "center";
+  column.align = "right";
   column.width = "";
   headers.push(column);
 
   // roomId
   column = new columnInfo();
+  column.title = "Mã Phòng Đang Ở";
+  column.name = "roomId";
+  column.dataType = "";
+  column.align = "center";
+  column.width = "";
+  column.hidden = true;
+  headers.push(column);
+
+  // roomName
+  column = new columnInfo();
+  column.title = "Phòng Đang Ở";
+  column.name = "roomName";
+  column.dataType = "";
+  column.align = "center";
+  column.width = "";
+  headers.push(column);
+
+  // actions
+  column = new columnInfo();
   column.title = "Hành Động";
   column.name = "actions";
   column.dataType = "";
-  column.template = "actions";
+  column.template = `<button class="btn btn-primary ms-2 me-2" onclick="Detail('customerDetailModal', '{id}')">Chi tiết</button><button class="btn btn-danger ms-2 me-2" onclick="Delete('{id}')">Xóa</button>`;
   column.align = "center";
   column.width = "";
   headers.push(column);
@@ -81,11 +100,35 @@ const getSearch = async () => {
   }
   try {
     const response = await callAPI('customerSearch', request);
-    if(checkError(response.data)) return;
-    console.log(response.data);
-    return response.data.rows;
+    if(checkError(response)) return;
+    return response.rows;
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
+  }
+}
+
+const loadGrid = async () => {
+  const headers = getColumnInfo();
+  const rows = await getSearch();
+  if(rows.length === 0) alert("No search");
+  createLayout(headers, rows);
+}
+
+const Search = async () => {
+  await loadGrid();
+}
+
+const Delete = async (id) => {
+  const request = getRequest();
+  request['customerDeleteId'] = id;
+  try {
+    const response = await callAPI('customerDelete', request);
+    console.log(response);
+    if(checkError(response)) return;
+    alert("Deleted successful");
+    await loadGrid();
+  } catch (e) {
+    alert("ERROR OUTSIDE SYSTEM" + e.message);
   }
 }
 
