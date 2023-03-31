@@ -1,17 +1,11 @@
 package com.Nixagh.Learn.common.process;
 
 import com.Nixagh.Learn.KCP.Authorized.AuthorizedProcess.AuthorizedProcess;
-import com.Nixagh.Learn.KCP.userSearch.dto.UserSearchResponse;
 import com.Nixagh.Learn.common.database.DBAccessor;
 import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-
-import java.sql.Time;
-import java.util.Date;
 
 public abstract class AbsProcess {
 	public AbsProcess() {};

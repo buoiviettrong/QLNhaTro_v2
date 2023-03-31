@@ -42,7 +42,7 @@ const getAccessInfo = () => {
 
 const checkAuth = async () => {
   const request = getRequest();
-  if(request.accessInfo == undefined) {
+  if(request == undefined) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
     return false;
