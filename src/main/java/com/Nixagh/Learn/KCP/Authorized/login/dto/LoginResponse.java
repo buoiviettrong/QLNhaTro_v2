@@ -1,4 +1,4 @@
-package com.Nixagh.Learn.KCP.login.dto;
+package com.Nixagh.Learn.KCP.Authorized.login.dto;
 
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 

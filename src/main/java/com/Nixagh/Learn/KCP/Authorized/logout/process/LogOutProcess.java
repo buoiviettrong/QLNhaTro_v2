@@ -1,7 +1,7 @@
-package com.Nixagh.Learn.KCP.logout.process;
+package com.Nixagh.Learn.KCP.Authorized.logout.process;
 
-import com.Nixagh.Learn.KCP.logout.dto.LogOutRequest;
-import com.Nixagh.Learn.KCP.logout.dto.LogOutResponse;
+import com.Nixagh.Learn.KCP.Authorized.logout.dto.LogOutRequest;
+import com.Nixagh.Learn.KCP.Authorized.logout.dto.LogOutResponse;
 import com.Nixagh.Learn.common.dto.errorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

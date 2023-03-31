@@ -1,7 +1,7 @@
-package com.Nixagh.Learn.KCP.register.process;
+package com.Nixagh.Learn.KCP.Authorized.register.process;
 
-import com.Nixagh.Learn.KCP.register.dto.RegisterRequest;
-import com.Nixagh.Learn.KCP.register.dto.RegisterResponse;
+import com.Nixagh.Learn.KCP.Authorized.register.dto.RegisterRequest;
+import com.Nixagh.Learn.KCP.Authorized.register.dto.RegisterResponse;
 import com.Nixagh.Learn.common.dto.errorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

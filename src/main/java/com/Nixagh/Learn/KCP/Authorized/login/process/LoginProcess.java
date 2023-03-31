@@ -1,11 +1,10 @@
-package com.Nixagh.Learn.KCP.login.process;
+package com.Nixagh.Learn.KCP.Authorized.login.process;
 
-import com.Nixagh.Learn.KCP.login.dto.LoginInfo;
-import com.Nixagh.Learn.KCP.login.dto.LoginResponse;
-import com.Nixagh.Learn.KCP.login.dto.LoginResult;
+import com.Nixagh.Learn.KCP.Authorized.login.dto.LoginInfo;
+import com.Nixagh.Learn.KCP.Authorized.login.dto.LoginResponse;
+import com.Nixagh.Learn.KCP.Authorized.login.dto.LoginResult;
 import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.utilities.Token;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

@@ -1,8 +1,8 @@
-package com.Nixagh.Learn.KCP.logout.webService;
+package com.Nixagh.Learn.KCP.Authorized.logout.webService;
 
-import com.Nixagh.Learn.KCP.logout.dto.LogOutRequest;
-import com.Nixagh.Learn.KCP.logout.dto.LogOutResponse;
-import com.Nixagh.Learn.KCP.logout.process.LogOutProcess;
+import com.Nixagh.Learn.KCP.Authorized.logout.dto.LogOutRequest;
+import com.Nixagh.Learn.KCP.Authorized.logout.dto.LogOutResponse;
+import com.Nixagh.Learn.KCP.Authorized.logout.process.LogOutProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,9 +1,8 @@
-package com.Nixagh.Learn.KCP.register.webService;
+package com.Nixagh.Learn.KCP.Authorized.register.webService;
 
-import com.Nixagh.Learn.KCP.register.dto.RegisterDto;
-import com.Nixagh.Learn.KCP.register.dto.RegisterRequest;
-import com.Nixagh.Learn.KCP.register.dto.RegisterResponse;
-import com.Nixagh.Learn.KCP.register.process.RegisterProcess;
+import com.Nixagh.Learn.KCP.Authorized.register.dto.RegisterRequest;
+import com.Nixagh.Learn.KCP.Authorized.register.dto.RegisterResponse;
+import com.Nixagh.Learn.KCP.Authorized.register.process.RegisterProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
