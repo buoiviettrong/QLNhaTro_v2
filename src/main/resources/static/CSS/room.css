@@ -26,6 +26,7 @@
 .room-item-description .room-price {
   position: absolute;
   bottom: 100px;
+<<<<<<< HEAD
 }
 
 .room-item-description .btn-customer {
@@ -39,4 +40,6 @@
 .room-create {
   position: absolute;
   right: 0;
+=======
+>>>>>>> QLNhaTro_v2/master
 }
