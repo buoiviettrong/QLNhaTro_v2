@@ -1,5 +1,8 @@
+const items = document.getElementById('content-body');
 const init = (async () => {
   await checkAuth();
+  const rows = await getRows();
+  loadRoom(rows);
 })()
 const roomNoActive = (id, name, price) => {
   return `<div class="room-item">
@@ -58,4 +61,36 @@ const Delete = (id) => {
 }
 const AddCustomer = (id) => {
 
+}
+const getConditions = () => {
+  return {
+    roomName: document.getElementById('roomName').value,
+    status: document.getElementById('room-status').value
+  }
+}
+const getRows = async () => {
+  const request = getRequest();
+  request['roomSearchConditions'] = getConditions();
+  console.log(request);
+  try {
+    const response = await callAPI('roomSearch', request);
+    if(checkError(response)) return;
+    console.log(response);
+    return response.rows;
+  } catch (e) {
+    alert("ERROR OUTSIDE SYSTEM \n" + e.message());
+  }
+}
+const loadRoom = (rows) => {
+  let str = '';
+  rows.forEach(row => {
+    if(row.status == 0) str += roomNoActive(row.id, row.roomName, row.price);
+    else str += roomActive(row.id, row.roomName, row.price);
+  })
+  items.innerHTML = str == null ? '' : str;
+}
+const Search = async () => {
+  const rows = await getRows();
+  if(rows.length === 0) alert("No rows found for search");
+  loadRoom(rows);
 }

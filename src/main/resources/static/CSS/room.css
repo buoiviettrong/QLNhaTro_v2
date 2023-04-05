@@ -27,3 +27,16 @@
   position: absolute;
   bottom: 100px;
 }
+
+.room-item-description .btn-customer {
+  position: absolute;
+  top: 100px;
+}
+.content-header {
+  position: relative;
+}
+
+.room-create {
+  position: absolute;
+  right: 0;
+}

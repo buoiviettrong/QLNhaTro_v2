@@ -30,7 +30,6 @@ const createRows = (headers, rows) => {
     for(let i = 0, size = headers.length; i < size; i++) {
       const width = headers[i].width == "" ? "100px" : headers[i].width + "px";
       const hidden = headers[i].hidden ? "hidden" : "";
-
       let col = `<td ${hidden}>`
       col += `<div class="${headers[i].name}" style="min-width: ${headers[i].hidden ? "0px" : width}; height: 100%; text-align: ${headers[i].align}">`;
       if(headers[i].template != "") {
@@ -53,13 +52,13 @@ const createRows = (headers, rows) => {
       }
       else
         switch(headers[i].dataType) {
-          case "INPUT" :
-            col += `<input type="Text" id="${headers[i].name}_${i}" value="${item[headers[i].name]}">`;
+          case "Input" :
+            col += `<input type="Text" id="${headers[i].name}_${item.id}" value="${item[headers[i].name]}" style="min-width: ${headers[i].hidden ? '0px' : width }; max-width: ${headers[i].hidden ? "0px" : width}; text-align: ${headers[i].align}" onchange="Change('${item['id']}')">`;
             break;
-          case "TEXT" :
+          case "Text" :
             col += `<span>${item[headers[i].name]}</span>`
             break;
-          case "" :
+          default :
             col += `<span>${item[headers[i].name]}</span>`
             break;
         }

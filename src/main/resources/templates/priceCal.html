@@ -7,6 +7,27 @@
 <body>
 <div th:replace="fragment/header :: header"></div>
 <div th:replace="fragment/navbar :: navbar"></div>
+<div class="main-content row w-100">
+  <div class="search row m-3 w-50">
+    <div class="input-group m-3 w-25 col">
+      <span class="fw-bold m-3 text-aligns-center">Tình Trạng Phòng </span>
+      <select class="form-control" name="status" id="roomStatus">
+        <option value="-1">Tất Cả</option>
+        <option value="1">Đang Ở</option>
+        <option value="0">Còn Trống</option>
+      </select>
+    </div>
+    <div class="input-group m-3 w-25 col">
+      <input class="form-control" type="text" id="roomName" placeholder="Tên phòng ...">
+      <button class="btn btn-primary" onclick="Search()">Tìm Kiếm</button>
+    </div>
+  </div>
+  <hr>
+  <div class="col-md-12 m-3">
+    <table id="grid" class="table table-bordered"></table>
+  </div>
+</div>
 <div th:replace="fragment/footer :: footer"></div>
+<script type="application/javascript" src="/JS/Controllers/priceCal/priceCal.js"></script>
 </body>
 </html>

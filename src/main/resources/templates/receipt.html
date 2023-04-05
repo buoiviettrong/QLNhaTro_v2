@@ -7,6 +7,30 @@
 <body>
 <div th:replace="fragment/header :: header"></div>
 <div th:replace="fragment/navbar :: navbar"></div>
+<div class="main-content row w-100">
+    <div class="search row m-3 w-75">
+      <div class="input-group w-25 col">
+        <label class="m-3">Giá Tiền</label>
+        <input type="number" class="form-control" placeholder="Tổng Tiền Từ...." id="startPrice">
+        <input type="number" class="form-control" placeholder="Tổng Tiền Đến...." id="endPrice">
+      </div>
+      <div class="input-group w-25 col">
+        <label class="m-3">Thời Gian</label>
+        <input type="date" class="form-control" placeholder="Từ Ngày...." id="startDate">
+        <input type="date" class="form-control" placeholder="Đến Ngày...." id="endDate">
+      </div>
+      <div class="input-group w-25 col">
+        <input class="form-control" type="text" id="search-input" placeholder="Tên phòng ...">
+        <button class="btn btn-primary" onclick="Search()">Tìm Kiếm</button>
+      </div>
+      <button class="btn btn-warning col-1 ms-5" onclick="Clear()" style="color: white; width: 80px;"> Làm Lại</button>
+    </div>
+    <hr>
+    <div class="col-md-12 m-3">
+      <table id="grid" class="table table-bordered"></table>
+    </div>
+</div>
 <div th:replace="fragment/footer :: footer"></div>
+<script type="application/javascript" src="/JS/Controllers/receipt/receipt.js"></script>
 </body>
 </html>
