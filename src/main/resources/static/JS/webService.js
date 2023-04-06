@@ -45,15 +45,14 @@ const checkAuth = async () => {
   if(request == undefined) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
-    return false;
+    return;
   }
   const response = await callAPI('Authorized', request);
   if(!response) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
-    return false;
+    return;
   }
-  return true;
 }
 
 const navigateTo = (to) => {

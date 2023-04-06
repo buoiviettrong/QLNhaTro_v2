@@ -15,4 +15,22 @@ public class ConvertDate {
     }
     return "";
   }
+  public static String convert(Date date, String from, String to) {
+    try {
+      DateFormat formatter = new SimpleDateFormat(from);
+      DateFormat formatter1 = new SimpleDateFormat(to);
+      return formatter1.format(formatter.parse(String.valueOf(date)));
+    } catch (ParseException e) {
+    }
+    return "";
+  }
+  public static String convert(String date, String from, String to) {
+    try {
+      DateFormat formatter = new SimpleDateFormat(from);
+      DateFormat formatter1 = new SimpleDateFormat(to);
+      return formatter1.format(formatter.parse(date));
+    } catch (ParseException e) {
+    }
+    return "";
+  }
 }

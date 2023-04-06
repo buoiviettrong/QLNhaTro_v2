@@ -1,4 +1,4 @@
-package com.Nixagh.Learn.KCP.receipt.receiptSearch.dto;
+package com.Nixagh.Learn.KCP.receipt.receiptCreate.dto;
 
 import com.Nixagh.Learn.common.dto.AbsDto;
 import com.Nixagh.Learn.common.dto.EWPrice;
@@ -7,8 +7,7 @@ import com.Nixagh.Learn.common.dto.WaterIndex;
 
 import java.util.ArrayList;
 
-public class ReceiptSearchRows extends AbsDto {
-  public String id;
+public class ReceiptCreateDto extends AbsDto {
   public String roomName;
   public double roomPrice;
   public ElectricIndex electricIndex;
@@ -17,7 +16,6 @@ public class ReceiptSearchRows extends AbsDto {
   public double totalRevenue;
   public double totalMoney;
   public ArrayList<EWPrice> Price;
-  public double totalMoneyOfElectric;
-  public double totalMoneyOfWater;
+  public String userId;
   public String timestamp;
 }

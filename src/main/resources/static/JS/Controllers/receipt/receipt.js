@@ -17,7 +17,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Tên Phòng";
-  column.name = "name";
+  column.name = "roomName";
   column.template = "";
   column.dataType = "Text";
   column.width = 100;
@@ -36,7 +36,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Chỉ số nước cũ";
-  column.name = "w_old";
+  column.name = "waterIndexOld";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -45,7 +45,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Chỉ số nước mới";
-  column.name = "w_new";
+  column.name = "waterIndexNew";
   column.dataType = "Text";
   column.width = 150;
   column.align = "center"; // left.center.right
@@ -54,7 +54,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Tổng tiền nước";
-  column.name = "w_total";
+  column.name = "totalMoneyOfWater";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -63,7 +63,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Chỉ số điện cũ";
-  column.name = "e_old";
+  column.name = "electricIndexOld";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -72,7 +72,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Chỉ số điện mới";
-  column.name = "e_new";
+  column.name = "electricIndexNew";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -81,7 +81,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Tổng tiền điện";
-  column.name = "e_total";
+  column.name = "totalMoneyOfElectric";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -99,7 +99,7 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Tiền Phòng";
-  column.name = "r_price";
+  column.name = "roomPrice";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
@@ -108,26 +108,49 @@ const getColumnInfo = () => {
 
   column = new columnInfo();
   column.title = "Tổng Thu (Vnđ)";
-  column.name = "total";
+  column.name = "totalRevenue";
   column.dataType = "Text";
   column.width = 100;
   column.align = "center"; // left.center.right
   column.hidden = false;
   headers.push(column);
 
-  column = new columnInfo();
-  column.title = "Hành Động";
-  column.name = "action";
-  column.template = `<buton class="btn btn-primary" onclick="Detail('{id}')" data-bs-toggle="modal" data-bs-target="#myModal">Chi Tiết</buton>`;
-  column.dataType = "Text";
-  column.width = 100;
-  column.align = "center"; // left.center.right
-  column.hidden = false;
-  headers.push(column);
+  // column = new columnInfo();
+  // column.title = "Hành Động";
+  // column.name = "action";
+  // column.template = `<buton class="btn btn-primary" onclick="Detail('receiptDetailModal', '{id}')" data-bs-toggle="modal" data-bs-target="#myModal">Chi Tiết</buton>`;
+  // column.dataType = "Text";
+  // column.width = 100;
+  // column.align = "center"; // left.center.right
+  // column.hidden = false;
+  // headers.push(column);
 
   return headers;
 }
-
+const converts = (arr) => {
+  const result = [];
+  arr.forEach(item => {
+    const value = {
+      id: item.id,
+      roomName: item.roomName,
+      electricIndexOld: item['electricIndex'].Old,
+      electricIndexNew: item['electricIndex'].New,
+      priceOfElectric: item['Price'][0].priceOfElectric,
+      totalMoneyOfElectric: item['Price'][0].priceOfElectric * (item['electricIndex'].New - item['electricIndex'].Old),
+      waterIndexOld: item['waterIndex'].Old,
+      waterIndexNew: item['waterIndex'].New,
+      priceOfWater: item['Price'][0].priceOfWater,
+      totalMoneyOfWater: item['Price'][0].priceOfWater * (item['waterIndex'].New - item['waterIndex'].Old),
+      deposit: item.deposit,
+      roomPrice: item.roomPrice,
+      totalMoney: item.totalMoney,
+      totalRevenue: item.totalRevenue,
+      timestamp: item.timestamp
+    }
+    result.push(value);
+  })
+  return result;
+}
 const getReceiptSearchConditions = () => {
   return {
     price: {
@@ -156,10 +179,23 @@ const getSearch = async () => {
 const loadGrid = async () => {
   const headers = getColumnInfo();
   const rows = await getSearch();
+  const new_rows = converts(rows);
   if(rows.length === 0) alert("No search");
-  createLayout(headers, rows);
+  createLayout(headers, new_rows);
 }
 
 const Search = async () => {
   await loadGrid();
+}
+
+const Clear = () => {
+  document.getElementById('startPrice').value = 0;
+  document.getElementById('endPrice').value = 0;
+  document.getElementById('startDate').value = '';
+  document.getElementById('endDate').value = '';
+  document.getElementById('search-input').value = '';
+}
+
+const Detail = (id) => {
+
 }

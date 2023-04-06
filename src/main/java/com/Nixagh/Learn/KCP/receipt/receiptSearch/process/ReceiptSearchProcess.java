@@ -6,6 +6,7 @@ import com.Nixagh.Learn.common.dto.PriceDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
+import com.Nixagh.Learn.common.utilities.ConvertDate;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,20 +26,22 @@ public class ReceiptSearchProcess extends AbsProcess {
     DateDto date = receiptSearchRequest.receiptSearchConditions.date;
 
     Query query = new Query();
-
+    Criteria criteriaOr = new Criteria();
+    Criteria criteriaAnd = new Criteria();
+    ArrayList<Criteria> criteriaList = new ArrayList<Criteria>();
     if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
     else {
-      if (price.start != 0) query.addCriteria(Criteria.where("r_total").gte(price.start));
-      if (price.end != 0) query.addCriteria(Criteria.where("r_total").lte(price.end));
-      if (date.start != null && !date.start.equals("")) query.addCriteria(Criteria.where("timestamp").gte(date.start));
-      if (date.end != null && !date.end.equals("")) query.addCriteria(Criteria.where("timestamp").lte(date.end));
-      if (id != null && !id.equals("")) query.addCriteria(Criteria.where("_id").is(id));
-      if(search != null && !search.equals(""))
-        query.addCriteria(new Criteria().orOperator(
-                Criteria.where("customerName").in(search),
-                Criteria.where("roomName").regex(search, "i")));
+      if (price.start != 0) criteriaList.add(new Criteria("totalRevenue").gte(price.start));
+      if (price.end != 0) criteriaList.add(new Criteria("totalRevenue").lte(price.end));
+      if (date.start != null && !date.start.equals("")) criteriaList.add(new Criteria("timestamp").gte(ConvertDate.convert(date.start, "yyyy-MM-dd", "dd-MM-yyyy")));
+      if (date.end != null && !date.end.equals("")) criteriaList.add(new Criteria("timestamp").lte(ConvertDate.convert(date.end, "yyyy-MM-dd", "dd-MM-yyyy")));
+      if (userId != null && !userId.equals("")) criteriaList.add(new Criteria("userId").is(userId));
+      if (search != null && !search.equals(""))
+        criteriaOr = new Criteria().orOperator(
+                Criteria.where("roomName").regex(search, "i"),
+                Criteria.where("customerName").in(search));
+      query.addCriteria(criteriaOr.andOperator(criteriaList));
     }
-    if (userId != null && !userId.equals("")) query.addCriteria(Criteria.where("userId").is(userId));
     System.out.println(query);
     receiptSearchResponse.rows = (ArrayList<ReceiptSearchRows>) mongoTemplate.find(query, ReceiptSearchRows.class, "Receipt");
     return receiptSearchResponse;

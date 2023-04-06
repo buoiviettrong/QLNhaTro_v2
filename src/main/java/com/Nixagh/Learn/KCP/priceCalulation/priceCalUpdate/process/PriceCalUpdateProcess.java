@@ -8,6 +8,8 @@ import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,7 +27,7 @@ public class PriceCalUpdateProcess extends AbsProcess {
 
     Query query = new Query();
     query.addCriteria(Criteria.where("userId").is(userId));
-    query.addCriteria(Criteria.where("id").is(id));
+    query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
 
     Update update = new Update();
     if(Status != -1) update.set("Status", Status);
@@ -34,13 +36,13 @@ public class PriceCalUpdateProcess extends AbsProcess {
       WaterIndex indexOfWater = priceCalUpdateRequest.priceCalUpdateDto.waterIndex;
       double deposit = priceCalUpdateRequest.priceCalUpdateDto.deposit;
 
-      update.set("electricIndex", update.set("Old", indexOfElectric.Old).set("New", indexOfElectric.New));
-      update.set("waterIndex", update.set("Old", indexOfWater.Old).set("New", indexOfWater.New));
+      update.set("electricIndex.Old", indexOfElectric.Old);
+      update.set("electricIndex.New", indexOfElectric.New);
+      update.set("waterIndex.Old", indexOfWater.Old);
+      update.set("waterIndex.New", indexOfWater.New);
       update.set("deposit", deposit);
     }
     try {
-      System.out.println(query);
-      System.out.println(update);
       mongoTemplate.updateFirst(query, update, "PriceCalculator");
     } catch (Exception e) {
       priceCalUpdateResponse.addError(new errorDto("PRICE_CREATE", "Price create failed"));

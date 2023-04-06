@@ -54,7 +54,7 @@ public class PriceCalSearchProcess extends AbsProcess {
       row.totalMoneyOfWater = (item.waterIndex.New - item.waterIndex.Old) * item.Price.get(0).priceOfWater;
       row.totalMoney = row.totalMoneyOfElectric + row.totalMoneyOfWater + row.roomPrice;
       row.deposit = item.deposit;
-      row.totalRevenue = row.totalMoney - row.deposit;
+      row.totalRevenue = (row.totalMoney - row.deposit) < 0 ? 0 : (row.totalMoney - row.deposit);
       lst.add(row);
     });
     priceCalSearchResponse.rows = lst;

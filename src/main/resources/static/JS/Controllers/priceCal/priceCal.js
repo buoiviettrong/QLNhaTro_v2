@@ -297,3 +297,22 @@ const Change = async (id) => {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
   }
 }
+
+const Output = async (id) => {
+  let request = getRequest();
+  request['id'] = id;
+  try {
+    let response = await callAPI("priceCalculation", request);
+    console.log(response);
+    if(checkError(response)) return;
+    // tạo hóa đơn
+    request = getRequest();
+    request['receiptCreateDto'] = response.rows;
+    response = await callAPI("receiptCreate", request);
+    if(checkError(response)) return;
+    alert("Tạo Hóa Đơn Mới Thành Công");
+    await loadGrid();
+  } catch (err) {
+    alert("Lỗi Ngoài Hệ Thống " + err.message);
+  }
+}
