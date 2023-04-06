@@ -4,6 +4,7 @@ const init = (async () => {
   const rows = await getRows();
   loadRoom(rows);
 })()
+let lists = [];
 const roomNoActive = (id, name, price) => {
   return `<div class="room-item">
             <div class="room-item-header">
@@ -14,7 +15,7 @@ const roomNoActive = (id, name, price) => {
             </div>
             <div class="room-item-description">
               <div class="btn-customer">
-                <button class="btn btn-success" onclick="AddCustomer('${id}')">Thêm Khách Hàng</button>
+                <button class="btn btn-success" onclick="AddCustomer('roomAddCustomer', '${id}')">Thêm Khách Hàng</button>
               </div>
               <div class="room-price">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -24,8 +25,8 @@ const roomNoActive = (id, name, price) => {
               </div>
             </div>
             <div class="room-item-footer">
-              <div class="btn btn-light btn-detail" onclick="Detail('${id}')">Chi Tiết</div>
-              <div class="btn btn-danger btn-detail" onclick="Delete('${id}')">Xóa</div>
+              <div class="btn btn-primary btn-detail" onclick="Detail('${id}')">Chi Tiết</div>
+              <div class="btn btn-danger" onclick="Delete('${id}')">Xóa</div>
             </div>
           </div>`;
 }
@@ -39,7 +40,8 @@ const roomActive = (id, name, price) => {
               <span class="ms-3 fs-3 fw-bold">${name}</span>
             </div>
             <div class="room-item-description">
-              <div class="btn-customer">             
+              <div class="btn-customer">  
+                <button class="btn btn-danger" onclick="Checkout('${id}')">Trả Phòng</button>
               </div>
               <div class="room-price">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -49,8 +51,8 @@ const roomActive = (id, name, price) => {
               </div>
             </div>
             <div class="room-item-footer">
-              <div class="btn btn-primary btn-detail" onclick="Detail('${id}')">Chi Tiết</div>
-              <div class="btn btn-danger btn-detail" onclick="Delete('${id}')">Xóa</div>
+              <div class="btn btn-light btn-detail" onclick="Detail('${id}')">Chi Tiết</div>
+              <div class="btn btn-danger" onclick="Delete('${id}')">Xóa</div>
             </div>
           </div>`;
 }
@@ -59,8 +61,71 @@ const Detail = (id) => {
 const Delete = (id) => {
 
 }
-const AddCustomer = (id) => {
+const AddCustomer = async (name, id) => {
+  await OpenModal(name);
+  await loadData(id);
+}
 
+const loadData = async (id) => {
+  let request = getRequest();
+  request['roomSearchConditions'] = {
+    id: id
+  };
+  try {
+    let response = await callAPI("roomSearch", request);
+    if(checkError(response)) return;
+    document.getElementById('a_id').value = id;
+    document.getElementById('a_roomName').value = response.rows[0].roomName;
+
+    request = getRequest();
+    request['customerSearchConditions'] = {
+      search: ''
+    }
+    response = await callAPI("customerSearch", request);
+    if(checkError(response)) return;
+    addCustomerToSelect(response.rows);
+  } catch (e) {
+    alert("ERROR OUTSIDE SYSTEM \n" + e.message);
+  }
+}
+const addCustomerToSelect = (rows) => {
+  lists = [];
+  document.getElementById('lists').innerHTML = '';
+  const lst = document.getElementById('datalistOptions');
+  lst.innerHTML = '';
+  rows.forEach(item => {
+    lst.innerHTML += `<option value="${item.customerName}" name="${item.id}" id="${item.customerName}">${item.nationalId}</option>`
+  })
+}
+const addToList = () => {
+  const name = document.getElementById('a_customers').value;
+  const text = document.getElementById(name).innerText;
+  const id = document.getElementById(name).getAttribute('name');
+  const temp = lists.filter(item => item.n_id === text);
+  if(temp != null && temp.length > 0){}
+  else lists.push({ name: name, n_id: text, id:  id});
+  let str = '';
+  lists.forEach(item => {
+     str += `<div class="m-3" id="__${item.n_id}">${item.name} || ${item.n_id}</div>`;
+  })
+  document.getElementById('lists').innerHTML = str;
+}
+const SaveCustomer = async () => {
+  console.log(lists);
+  const id = document.getElementById('a_id').value;
+  const request = getRequest();
+  request['roomUpdateDto'] = {
+    id: id,
+    customers: lists.map(item => item.id),
+    status: -1
+  }
+  try {
+    const response = await callAPI('roomUpdate', request);
+    if(checkError(response)) return;
+    alert("Updated customer successfully");
+  } catch (e) {
+    alert("ERROR OUTSIDE SYSTEM \n" + e.message);
+  }
 }
 const getConditions = () => {
   return {
@@ -71,14 +136,12 @@ const getConditions = () => {
 const getRows = async () => {
   const request = getRequest();
   request['roomSearchConditions'] = getConditions();
-  console.log(request);
   try {
     const response = await callAPI('roomSearch', request);
     if(checkError(response)) return;
-    console.log(response);
     return response.rows;
   } catch (e) {
-    alert("ERROR OUTSIDE SYSTEM \n" + e.message());
+    alert("ERROR OUTSIDE SYSTEM \n" + e.message);
   }
 }
 const loadRoom = (rows) => {

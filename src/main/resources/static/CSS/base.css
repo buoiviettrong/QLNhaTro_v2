@@ -125,3 +125,10 @@ label {
 .error-message {
   color: var(--main-error-color);
 }
+.btn-light {
+  color: black;
+  font-weight: bold;
+}
+.btn {
+  font-weight: bold;
+}
