@@ -10,7 +10,22 @@
   <div id="modal"></div>
   <div th:replace="fragment/navbar :: navbar"></div>
   <div class="main-content row w-100">
-    <div class="col-2 status-and-price"></div>
+    <div class="col-2 status-and-price">
+      <div class="row status mb-5"></div>
+      <div class="row mt-5 p-3 price" style="background-color: #0c6dbb; border-radius: 10px;">
+        <div class="input-group m-1 mt-3">
+          <label for="priceOfElectric" class="input-group-text">Giá Điện: </label>
+          <input class="form-control" value="0" id="priceOfElectric" placeholder="Giá Điện" style="text-align: right;">
+          <label for="priceOfElectric" class="input-group-text">Đồng/Số</label>
+        </div>
+        <div class="input-group m-1 mt-3">
+          <label for="priceOfWater" class="input-group-text">Giá Nước: </label>
+          <input class="form-control" value="0" id="priceOfWater" placeholder="Giá Điện" style="text-align: right;">
+          <label for="priceOfWater" class="input-group-text">Đồng/Số</label>
+        </div>
+        <button class="btn btn-create w-50 ms-3 mt-3" onclick="UpdatePrice()">Cập Nhật</button>
+      </div>
+    </div>
     <div class="col-10 content">
       <div class="row content-header">
         <div class="search room-status input-group w-25">

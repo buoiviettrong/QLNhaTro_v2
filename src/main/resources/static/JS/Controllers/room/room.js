@@ -269,3 +269,30 @@ const Checkout = async (id) => {
     alert("ERROR OUTSIDE SYSTEM \n");
   }
 }
+
+const UpdatePrice = async () => {
+  const priceOfElectric = document.getElementById('priceOfElectric').value;
+  const priceOfWater = document.getElementById('priceOfWater').value;
+
+  if (priceOfElectric === "" || priceOfWater === "") {
+    alert("Giá Điện Nước Phải Được Nhập");
+    return;
+  }
+  if (isNaN(priceOfElectric) || isNaN(priceOfWater)) {
+    alert("Giá Điện Nước Phải Là Số");
+    return;
+  }
+  const request = getRequest();
+  request['priceUpdateDto'] = {
+    priceOfElectric: priceOfElectric,
+    priceOfWater: priceOfWater
+  }
+  try {
+    const response = await callAPI('priceUpdate', request);
+    if(checkError(response)) return;
+    alert("Thay Đổi Giá Thành Công");
+  } catch (e) {
+    console.log(e.message)
+    alert("Lỗi Ngoài Hệ Thống");
+  }
+}
