@@ -21,8 +21,6 @@ public class RoomUpdateProcess extends AbsProcess {
     RoomUpdateResponse roomSearchResponse = (RoomUpdateResponse) response;
     
     String id = roomUpdateRequest.roomUpdateDto.id;
-    String name = roomUpdateRequest.roomUpdateDto.roomName;
-    int status = roomUpdateRequest.roomUpdateDto.status;
     double price = roomUpdateRequest.roomUpdateDto.price;
     ArrayList<String> customers = roomUpdateRequest.roomUpdateDto.customers;
     
@@ -30,15 +28,13 @@ public class RoomUpdateProcess extends AbsProcess {
     query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
     try {
       RoomUpdateDto room = mongoTemplate.findOne(query, RoomUpdateDto.class, "Room");
-      System.out.println(query.toString());
+      System.out.println(room.roomName);
       if(room == null) roomSearchResponse.addError(new errorDto("ROOM_UPDATE_ERROR", "Room does not exist"));
       if (customers != null && !customers.isEmpty()) {
         room.customers = customers;
         room.status = 1;
       }
-      if (status != -1) room.status = status;
       if (price != 0) room.price = price;
-      if (name != null && !name.isEmpty()) room.roomName = name;
       mongoTemplate.save(room, "Room");
       roomSearchResponse.row.roomStatus = room.status;
       roomSearchResponse.row.roomName = room.roomName;

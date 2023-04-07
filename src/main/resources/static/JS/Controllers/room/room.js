@@ -68,12 +68,20 @@ const loadDataToDetailModal = async (id) => {
   try {
     const response = await callAPI("roomSearch", request);
     if(checkError(response)) return;
-    await setDataDetail(response.rows[0]);
     await addCustomerToSelect('d_list');
+    await setDataDetail(response.rows[0]);
   } catch (err) {
     alert("Error: " + err.message);
   }
 
+}
+const convertToList = (data) => {
+  let temp = [];
+  data.forEach(item => {
+    const dc = document.getElementsByName(item)[0];
+    temp.push({ name: dc.value, n_id: dc.innerText, id:  item});
+  })
+  return temp;
 }
 const setDataDetail = async (res) => {
   document.getElementById('d_id').value = res.id;
@@ -81,23 +89,24 @@ const setDataDetail = async (res) => {
   document.getElementById('d_roomPrice').value = res.price;
 
   const request = getRequest();
-  request['customers'] = res.customers == null ? [] : res.customers;
+  request['customers'] = res.customers === null ? [] : res.customers;
   try {
     console.log(request);
     const response = await callAPI("customerSearchWithArray", request);
     if(checkError(response)) return;
     loadListDetail(response.rows);
+    lists = convertToList(lists);
   } catch (err) {
     alert("Error: " + err.message);
   }
 }
 const loadListDetail = (response) => {
-  if(response == null) return;
+  if(response === null) return;
   const list = document.getElementById('lists');
   list.innerHTML = '';
   response.forEach(item => {
     lists.push(item.id);
-    list.innerHTML += `<div class="m-3" id="__${item.id}">${item.customerName} || ${item.nationalId}</div>`;
+    list.innerHTML += `<div class="m-3" id="__${item.n_id}">Họ Tên: ${item.name} || Số Căn Cước: ${item.n_id}</div>`;
     }
   );
 }
@@ -105,15 +114,17 @@ const Delete = async (id) => {
   let request = getRequest();
   request['id'] = id;
   try {
-    let response = await callAPI("customerDelete", request);
+    let response = await callAPI("roomDelete", request);
     if (checkError(response)) return;
-    delete request['id'];
+    request = getRequest();
     request['priceCalConditions'] = {
-      roomName: response.row.roomName
+      roomId: id
     }
+    console.log(request);
     response = await callAPI("priceCalDelete", request);
     if (checkError(response)) return;
-    await Search;
+    alert("Successfully deleted");
+    await Search();
   } catch (err) {
     console.log(err.message);
     alert("Error: " + err.message);
@@ -163,12 +174,11 @@ const addToList = (_id) => {
   else lists.push({ name: name, n_id: text, id:  id});
   let str = '';
   lists.forEach(item => {
-     str += `<div class="m-3" id="__${item.n_id}">${item.name} || ${item.n_id}</div>`;
+     str += `<div class="m-3" id="__${item.n_id}">Họ Tên: ${item.name} || Số Căn Cước: ${item.n_id}</div>`;
   })
   document.getElementById('lists').innerHTML = str;
 }
 const SaveCustomer = async () => {
-  console.log(lists);
   const id = document.getElementById('a_id').value;
   let request = getRequest();
   request['roomUpdateDto'] = {
@@ -213,7 +223,7 @@ const loadRoom = (rows) => {
     if(row.status === 0) str += roomNoActive(row.id, row.roomName, row.price);
     else str += roomActive(row.id, row.roomName, row.price);
   })
-  items.innerHTML = str == null ? '' : str;
+  items.innerHTML = str === null ? '' : str;
 }
 const Search = async () => {
   const rows = await getRows();
@@ -221,17 +231,41 @@ const Search = async () => {
   loadRoom(rows);
 }
 const SaveRoom = async () => {
-  const request = getRequest();
+  let request = getRequest();
   request['roomUpdateDto'] = {
+    id: document.getElementById('d_id').value,
     price: document.getElementById('d_roomPrice').value,
     customers: lists.map(item => item.id)
   }
   try {
-    const response = await callAPI('roomUpdate', request);
+    let response = await callAPI('roomUpdate', request);
     if(checkError(response)) return;
+    request = getRequest();
+    request['priceCalUpdateStatusConditions'] = { roomName: response.row.roomName, status: 1 }
+    await callAPI("priceCalUpdateStatus", request);
     await Search();
+    alert("Updated room successfully");
   } catch (e) {
     console.log(e.message);
     alert("ERROR OUTSIDE SYSTEM \n" + e.message);
+  }
+}
+const Checkout = async (id) => {
+  let request = getRequest();
+  request['id'] = id;
+  try {
+    let response = await callAPI('roomCheckout', request);
+    if(checkError(response)) return;
+
+    request = getRequest();
+    request['priceCalUpdateStatusConditions'] = { roomId: id, status: 0 }
+    response = await callAPI("priceCalUpdateStatus", request);
+    if(checkError(response)) return;
+
+    await Search();
+    alert("Checkout successful ");
+  } catch (e) {
+    console.log(e.message);
+    alert("ERROR OUTSIDE SYSTEM \n");
   }
 }

@@ -176,7 +176,7 @@ const converts = (arr) => {
     const value = {
       id: item.id,
       roomName: item.roomName,
-      Status: item.Status == 1 ? "Đang Ở" : "Trống",
+      Status: item.Status === 1 ? "Đang Ở" : "Trống",
       electricIndexOld: item['electricIndex'].Old,
       electricIndexNew: item['electricIndex'].New,
       priceOfElectric: item['Price'][0].priceOfElectric,
@@ -202,7 +202,7 @@ const loadGrid = async () => {
   createLayout(headers, new_row);
   rows.forEach(item => {
     const btn = document.getElementById(`${item.id}`);
-    btn.style.display = item.Status == 1 ? "block" : "none";
+    btn.style.display = item.Status === 1 ? "block" : "none";
   })
 }
 

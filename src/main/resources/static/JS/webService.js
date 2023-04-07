@@ -42,16 +42,14 @@ const getAccessInfo = () => {
 
 const checkAuth = async () => {
   const request = getRequest();
-  if(request == undefined) {
+  if(request === undefined) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
-    return;
   }
   const response = await callAPI('Authorized', request);
   if(!response) {
     alert("You are not authorized to access this page.");
     window.location = `${baseUrls}/login`;
-    return;
   }
 }
 

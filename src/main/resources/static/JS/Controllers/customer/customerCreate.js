@@ -12,23 +12,23 @@ const check_value = (getRequest_customer_create) => {
   gender_message.innerText = '';
 
   let flg = true;
-  if (getRequest_customer_create.customerName == '') {
+  if (getRequest_customer_create.customerName === '') {
     customerName_message.innerText = "Customer Name is required.";
     flg = false;
   }
-  if (getRequest_customer_create.birthDate == '') {
+  if (getRequest_customer_create.birthDate === '') {
     birthDate_message.innerText = "Birth Date is required.";
     flg = false;
   }
-  if (getRequest_customer_create.gender == '') {
+  if (getRequest_customer_create.gender === '') {
     gender_message.innerText = "Gender is required.";
     flg = false;
   }
-  if (getRequest_customer_create.nationalId == '') {
+  if (getRequest_customer_create.nationalId === '') {
     nationalId_message.innerText = "National Id is required.";
     flg = false;
   }
-  if (getRequest_customer_create.phoneNumber == '') {
+  if (getRequest_customer_create.phoneNumber === '') {
     phoneNumber_message.innerText = "Phone Number is required.";
     flg = false;
   }

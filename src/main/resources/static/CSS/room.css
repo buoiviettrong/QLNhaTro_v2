@@ -10,7 +10,6 @@
 .room-item.active {
   background-color: var(--main-cyan-background);
   color: var(--main-text);
-  box-shadow: 2px 2px 2px 2px;
 }
 
 .room-item-footer {

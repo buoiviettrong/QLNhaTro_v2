@@ -10,7 +10,7 @@ const columnInfo = function () {
 const createHeader = (headers) => {
   let str = "<thead><tr>";
   headers.forEach(header => {
-    const width = header.width == "" ? "100px" : header.width + "px";
+    const width = header.width === "" ? "100px" : header.width + "px";
     const hidden = header.hidden ? "hidden" : "";
     let temp =  `<th ${hidden}>`;
         temp += `<div class="${header.name}" style="min-width: ${header.hidden ? "0px" : width}; height: 100%; text-align: center">`;
@@ -28,7 +28,7 @@ const createRows = (headers, rows) => {
   rows.forEach(item => {
     let row = `<tr>`;
     for(let i = 0, size = headers.length; i < size; i++) {
-      const width = headers[i].width == "" ? "100px" : headers[i].width + "px";
+      const width = headers[i].width === "" ? "100px" : headers[i].width + "px";
       const hidden = headers[i].hidden ? "hidden" : "";
       let col = `<td ${hidden}>`
       col += `<div class="${headers[i].name}" style="min-width: ${headers[i].hidden ? "0px" : width}; height: 100%; text-align: ${headers[i].align}">`;
@@ -40,7 +40,7 @@ const createRows = (headers, rows) => {
           startPos = template.indexOf('{');
           endPos = template.indexOf('}');
 
-          if(startPos == -1) break;
+          if(startPos === -1) break;
 
           const fieldName = template.slice(startPos + 1, endPos);
           const replaceStr = template.slice(startPos, endPos + 1);

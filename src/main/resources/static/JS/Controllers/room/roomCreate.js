@@ -12,11 +12,11 @@ const checkValue = () => {
   price.innerText = '';
 
   let flg = true;
-  if(roomCreate.roomName == '') {
+  if(roomCreate.roomName === '') {
     roomName.innerText = 'Room name is required';
     flg = false;
   }
-  if (roomCreate.price == '') {
+  if (roomCreate.price === '') {
     price.innerText = 'Price is required';
     flg = false;
   }
@@ -36,7 +36,8 @@ const createRoom = async () => {
     request = getRequest();
     request['priceCalCreateDto'] = {
       roomName: roomCreateDto().roomName,
-      roomPrice: roomCreateDto().price
+      roomPrice: roomCreateDto().price,
+      roomId: response.id
     }
     response = await callAPI('priceCalCreate', request);
     if(checkError(response)) return;

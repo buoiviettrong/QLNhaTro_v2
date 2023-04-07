@@ -18,15 +18,16 @@ public class PriceCalUpdateStatusProcess extends AbsProcess {
     PriceCalUpdateStatusResponse priceCalUpdateStatusResponse = (PriceCalUpdateStatusResponse) response;
     PriceCalUpdateStatusRequest priceCalUpdateStatusRequest = (PriceCalUpdateStatusRequest) request;
 
+    String roomId = priceCalUpdateStatusRequest.priceCalUpdateStatusConditions.roomId;
     String roomName = priceCalUpdateStatusRequest.priceCalUpdateStatusConditions.roomName;
     int status = priceCalUpdateStatusRequest.priceCalUpdateStatusConditions.status;
 
     Query query = new Query();
-    query.addCriteria(Criteria.where("roomName").is(roomName));
+    if(roomName != null && !roomName.isBlank()) query.addCriteria(Criteria.where("roomName").is(roomName));
+    if(roomId != null && !roomId.isBlank()) query.addCriteria(Criteria.where("roomId").is(roomId));
     Update update = new Update();
     update.set("Status", status);
     try {
-      System.out.println(query);
       mongoTemplate.updateFirst(query, update, "PriceCalculator");
     } catch (Exception e) {
       System.out.println(e.getMessage());

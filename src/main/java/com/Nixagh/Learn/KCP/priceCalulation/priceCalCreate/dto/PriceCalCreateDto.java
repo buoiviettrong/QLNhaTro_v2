@@ -6,6 +6,7 @@ import com.Nixagh.Learn.common.dto.WaterIndex;
 
 public class PriceCalCreateDto extends AbsDto {
   public String roomName;
+  public String roomId;
   public double roomPrice;
   public String userId;
   public ElectricIndex electricIndex = new ElectricIndex();

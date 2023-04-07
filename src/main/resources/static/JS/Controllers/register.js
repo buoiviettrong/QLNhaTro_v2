@@ -43,27 +43,27 @@ const checkValues = (request) => {
   const {h_username, h_password, h_confirm_password, h_email, h_phone} = clearMessage();
   let flg = true;
 
-  if (request.registerDto.username == '') {
+  if (request.registerDto.username === '') {
     h_username.style.display = 'block';
     h_username.innerText = "Username is required.";
     flg = false;
   }
-  if (request.registerDto.password == '') {
+  if (request.registerDto.password === '') {
     h_password.style.display = 'block';
     h_password.innerText = "Password is required.";
     flg = false;
   }
-  if (request.registerDto.confirm_password == '') {
+  if (request.registerDto.confirm_password === '') {
     h_confirm_password.style.display = 'block';
     h_confirm_password.innerText = "Confirm Password is required.";
     flg = false;
   }
-  if (request.registerDto.email == '') {
+  if (request.registerDto.email === '') {
     h_email.style.display = 'block';
     h_email.innerText = "Email is required.";
     flg = false;
   }
-  if (request.registerDto.phone == '') {
+  if (request.registerDto.phone === '') {
     h_phone.style.display = 'block';
     h_phone.innerText = "Phone is required.";
     flg = false;
