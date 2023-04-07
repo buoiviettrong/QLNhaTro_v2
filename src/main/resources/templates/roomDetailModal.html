@@ -9,23 +9,28 @@
   </div>
   <div class="modal-body row">
     <div class="id form-group" hidden="hidden">
-      <input class="form-control" id="a_id" type="text">
+      <input class="form-control" id="d_id" type="text">
     </div>
     <div class="roomName form-group row">
-      <label for="a_roomName">Tên Phòng</label>
-      <input class="form-control" id="a_roomName" type="text" disabled>
-      <span class="error-message" id="a_roomName-message"></span>
+      <label for="d_roomName">Tên Phòng</label>
+      <input class="form-control" id="d_roomName" type="text" disabled>
+      <span class="error-message" id="d_roomName-message"></span>
+    </div>
+    <div class="roomName form-group row">
+      <label for="d_roomPrice">Giá Phòng</label>
+      <input class="form-control" id="d_roomPrice" type="text">
+      <span class="error-message" id="d_roomPrice-message"></span>
     </div>
     <div class="customer form-group row me-3">
-      <label for="a_customers" class="form-label">Khách Hàng</label>
-      <input class="col form-control" list="datalistOptions" id="a_customers" placeholder="Type to search...">
-      <button class="col-2 ms-3 btn btn-create" onclick="addToList('a_customers')">+</button>
+      <label for="d_customers" class="form-label">Khách Hàng</label>
+      <input class="col form-control" list="datalistOptions" id="d_customers" placeholder="Type to search...">
+      <button class="col-2 ms-3 btn btn-create" onclick="addToList('d_customers')">+</button>
       <datalist id="datalistOptions"></datalist>
     </div>
     <div class="lists" id="lists"></div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" id="btn-close-modal">Close</button>
-    <button type="button" class="btn btn-create" id="btn-create-customer" onclick="SaveCustomer()">Lưu</button>
+    <button type="button" class="btn btn-create" id="btn-create-customer" onclick="SaveRoom()">Lưu</button>
   </div>
 </div>

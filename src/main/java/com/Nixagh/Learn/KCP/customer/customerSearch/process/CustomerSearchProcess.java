@@ -25,21 +25,21 @@ public class CustomerSearchProcess extends AbsProcess {
 
     // Create query
     Query query = new Query();
-      if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
-    else
-      query.addCriteria(new Criteria().orOperator(
-              new Criteria("customerName").regex(search, "i"),
-              new Criteria("roomName").regex(search, "i"),
-              new Criteria("nationalId").regex(search, "i")));
-      query.addCriteria(new Criteria("userId").is(userId));
+    if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
+    else {
+        query.addCriteria(new Criteria().orOperator(
+                new Criteria("customerName").regex(search, "i"),
+                new Criteria("roomName").regex(search, "i"),
+                new Criteria("nationalId").regex(search, "i")));
+    }
+    query.addCriteria(new Criteria("userId").is(userId));
     // page info
     query.limit(pageInfo.displayNum);
     query.skip(pageInfo.pageNum - 1);
     System.out.println(query.toString());
 
     // Execute query
-    ArrayList<CustomerSearchRows> lst = (ArrayList<CustomerSearchRows>) mongoTemplate.find(query, CustomerSearchRows.class, "Customer");
-    customerSearchResponse.rows = lst;
+    customerSearchResponse.rows = (ArrayList<CustomerSearchRows>) mongoTemplate.find(query, CustomerSearchRows.class, "Customer");
 
     // Return
     return customerSearchResponse;
