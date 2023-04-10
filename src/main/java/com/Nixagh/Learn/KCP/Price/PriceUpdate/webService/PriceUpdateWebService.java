@@ -1,8 +1,8 @@
-package com.Nixagh.Learn.KCP.Price.webService;
+package com.Nixagh.Learn.KCP.Price.PriceUpdate.webService;
 
-import com.Nixagh.Learn.KCP.Price.dto.PriceUpdateRequest;
-import com.Nixagh.Learn.KCP.Price.dto.PriceUpdateResponse;
-import com.Nixagh.Learn.KCP.Price.process.PriceUpdateProcess;
+import com.Nixagh.Learn.KCP.Price.PriceUpdate.dto.PriceUpdateRequest;
+import com.Nixagh.Learn.KCP.Price.PriceUpdate.dto.PriceUpdateResponse;
+import com.Nixagh.Learn.KCP.Price.PriceUpdate.process.PriceUpdateProcess;
 import com.Nixagh.Learn.common.process.AbsProcess;
 import com.Nixagh.Learn.common.webService.AbsWebService;
 import org.springframework.web.bind.annotation.PostMapping;

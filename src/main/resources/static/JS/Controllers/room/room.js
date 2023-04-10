@@ -3,6 +3,7 @@ const items = document.getElementById('content-body');
   await checkAuth();
   const rows = await getRows();
   loadRoom(rows);
+  await loadPrice();
 })()
 let lists = [];
 const roomNoActive = (id, name, price) => {
@@ -291,8 +292,20 @@ const UpdatePrice = async () => {
     const response = await callAPI('priceUpdate', request);
     if(checkError(response)) return;
     alert("Thay Đổi Giá Thành Công");
+    await loadPrice();
   } catch (e) {
     console.log(e.message)
     alert("Lỗi Ngoài Hệ Thống");
+  }
+}
+const loadPrice = async () => {
+  const request = getRequest();
+  try {
+    const response = await callAPI("priceSearch", request);
+    if(checkError(response)) return;
+    document.getElementById("priceOfElectric").value = response['row'].priceOfElectric;
+    document.getElementById("priceOfWater").value = response['row'].priceOfWater;
+  } catch (e) {
+    alert("Error: " + e.message);
   }
 }

@@ -36,8 +36,7 @@ const getRequest = () => {
   }
 }
 const getAccessInfo = () => {
-  const accessInfo = JSON.parse(localStorage.getItem("loginInfo"));
-  return accessInfo;
+  return JSON.parse(localStorage.getItem("loginInfo"));
 }
 
 const checkAuth = async () => {

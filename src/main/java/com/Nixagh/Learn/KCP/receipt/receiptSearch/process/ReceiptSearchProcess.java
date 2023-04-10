@@ -1,6 +1,8 @@
 package com.Nixagh.Learn.KCP.receipt.receiptSearch.process;
 
-import com.Nixagh.Learn.KCP.receipt.receiptSearch.dto.*;
+import com.Nixagh.Learn.KCP.receipt.receiptSearch.dto.ReceiptSearchRequest;
+import com.Nixagh.Learn.KCP.receipt.receiptSearch.dto.ReceiptSearchResponse;
+import com.Nixagh.Learn.KCP.receipt.receiptSearch.dto.ReceiptSearchRows;
 import com.Nixagh.Learn.common.dto.DateDto;
 import com.Nixagh.Learn.common.dto.PriceDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
@@ -27,7 +29,6 @@ public class ReceiptSearchProcess extends AbsProcess {
 
     Query query = new Query();
     Criteria criteriaOr = new Criteria();
-    Criteria criteriaAnd = new Criteria();
     ArrayList<Criteria> criteriaList = new ArrayList<Criteria>();
     if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
     else {

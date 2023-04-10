@@ -1,4 +1,4 @@
-package com.Nixagh.Learn.KCP.Price.dto;
+package com.Nixagh.Learn.KCP.Price.PriceUpdate.dto;
 
 import com.Nixagh.Learn.common.dto.AbsDto;
 

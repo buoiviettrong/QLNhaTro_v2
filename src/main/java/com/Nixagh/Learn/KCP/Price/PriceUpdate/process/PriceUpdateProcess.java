@@ -1,7 +1,7 @@
-package com.Nixagh.Learn.KCP.Price.process;
+package com.Nixagh.Learn.KCP.Price.PriceUpdate.process;
 
-import com.Nixagh.Learn.KCP.Price.dto.PriceUpdateRequest;
-import com.Nixagh.Learn.KCP.Price.dto.PriceUpdateResponse;
+import com.Nixagh.Learn.KCP.Price.PriceUpdate.dto.PriceUpdateRequest;
+import com.Nixagh.Learn.KCP.Price.PriceUpdate.dto.PriceUpdateResponse;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
