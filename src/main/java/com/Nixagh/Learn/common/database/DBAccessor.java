@@ -4,18 +4,31 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DBAccessor {
   private static MongoTemplate _instance = null;
-  private static MongoClient client() {
-    ConnectionString connectionString = new ConnectionString("mongodb+srv://19t1021145:FYLpZPIO7kJs5bQC@learnproject.xnjtw4l.mongodb.net/?retryWrites=true&w=majority");
+  private static String _connectionString;
+  private static String _databaseName;
+  @Value("${spring.data.mongodb.uri}")
+  private void setConnectionString(String connectionString) {
+    _connectionString = connectionString;
+  }
+  @Value("${spring.data.mongodb.database}")
+  private void setDatabaseName(String databaseName) {
+    _databaseName = databaseName;
+  }
+  private static MongoTemplate getDBAccessor() {
+    ConnectionString connectionString = new ConnectionString(_connectionString);
     MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
             .applyConnectionString(connectionString)
             .build();
-    return MongoClients.create(mongoClientSettings);
+    MongoClient mongoClient = MongoClients.create(mongoClientSettings);
+    return new MongoTemplate(mongoClient, _databaseName);
   }
-  private static MongoTemplate getDBAccessor() { return new MongoTemplate(client(), "LearnProject"); }
   private DBAccessor() {};
   public static MongoTemplate getInstance() {
     if(_instance == null) {

@@ -35,7 +35,7 @@
         <div class="col">
           <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control" id="email" placeholder="Email" type="email">
+            <input class="form-control" id="email" placeholder="Email" type="email" pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/">
             <span class="help-block" th:text="'Email is required.'" id="h-email"></span>
           </div>
           <div class="form-group">
