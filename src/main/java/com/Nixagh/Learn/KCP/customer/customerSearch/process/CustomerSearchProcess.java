@@ -33,14 +33,19 @@ public class CustomerSearchProcess extends AbsProcess {
                 new Criteria("nationalId").regex(search, "i")));
     }
     query.addCriteria(new Criteria("userId").is(userId));
-    // page info
-    query.limit(pageInfo.displayNum);
-    query.skip(pageInfo.pageNum - 1);
-    System.out.println(query.toString());
 
+    long totalElements = mongoTemplate.count(query, CustomerSearchRows.class, "Customer");
+    // page info
+    query.skip((long) (pageInfo.pageNum - 1) * pageInfo.displayNum);
+    query.limit(pageInfo.displayNum);
     // Execute query
     customerSearchResponse.rows = (ArrayList<CustomerSearchRows>) mongoTemplate.find(query, CustomerSearchRows.class, "Customer");
 
+    customerSearchResponse.pageInfo.totalElements = totalElements;
+    customerSearchResponse.pageInfo.totalPage = totalElements % pageInfo.displayNum == 0
+            ? totalElements / pageInfo.displayNum
+            : totalElements / pageInfo.displayNum + 1;
+    customerSearchResponse.pageInfo.currentPage = pageInfo.pageNum;
     // Return
     return customerSearchResponse;
   }

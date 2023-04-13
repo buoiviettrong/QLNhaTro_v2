@@ -42,7 +42,7 @@ const createRoom = async () => {
     response = await callAPI('priceCalCreate', request);
     if(checkError(response)) return;
     alert("Created room successfully");
-    loadRoom(await getRows());
+    await loadRoom(getRequest());
   } catch (e) {
     alert("ERROR OUTSIDE SYSTEM" + e.message())
   }

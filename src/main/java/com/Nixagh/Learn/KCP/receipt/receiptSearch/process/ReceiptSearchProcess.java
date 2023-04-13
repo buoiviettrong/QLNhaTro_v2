@@ -9,6 +9,9 @@ import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
 import com.Nixagh.Learn.common.utilities.ConvertDate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,6 +29,8 @@ public class ReceiptSearchProcess extends AbsProcess {
     String search = receiptSearchRequest.receiptSearchConditions.search;
     PriceDto price = receiptSearchRequest.receiptSearchConditions.price;
     DateDto date = receiptSearchRequest.receiptSearchConditions.date;
+    int pageSize = receiptSearchRequest.pageInfo.displayNum;
+    int pageNum = receiptSearchRequest.pageInfo.pageNum;
 
     Query query = new Query();
     Criteria criteriaOr = new Criteria();
@@ -43,8 +48,18 @@ public class ReceiptSearchProcess extends AbsProcess {
                 Criteria.where("customerName").in(search));
       query.addCriteria(criteriaOr.andOperator(criteriaList));
     }
-    System.out.println(query);
+    query.with(Sort.by("timestamp").descending());
+
+    long totalElements = mongoTemplate.count(query, ReceiptSearchRows.class, "Receipt");
+
+    query.with(Pageable.ofSize(pageSize).withPage(pageNum-1));
     receiptSearchResponse.rows = (ArrayList<ReceiptSearchRows>) mongoTemplate.find(query, ReceiptSearchRows.class, "Receipt");
+
+    long totalPage = totalElements % pageSize == 0 ? totalElements / pageSize : totalElements / pageSize + 1;
+    receiptSearchResponse.pageInfo.totalElements = totalElements;
+    receiptSearchResponse.pageInfo.totalPage = totalPage;
+    receiptSearchResponse.pageInfo.currentPage = pageNum;
+
     return receiptSearchResponse;
   }
   @Override

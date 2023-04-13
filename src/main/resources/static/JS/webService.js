@@ -30,7 +30,7 @@ const getRequest = () => {
       },
       pageInfo: {
         pageNum: 1,
-        displayNum: 10
+        displayNum: 8
       }
     }
   }

@@ -1,8 +1,9 @@
 const init = (async () => {
   await checkAuth();
-  await loadGrid();
+  await loadGrid(getRequest());
 })()
 let column;
+const request = getRequest();
 const getColumnInfo = () => {
   let headers = [];
 
@@ -159,13 +160,12 @@ const getPriceCalSearchConditions = () => {
     roomStatus: document.getElementById("roomStatus").value
   }
 }
-const getSearch = async () => {
-  const request = getRequest();
+const getSearch = async (request) => {
   request['priceCalSearchConditions'] = getPriceCalSearchConditions();
   try {
     const response = await callAPI('priceCalSearch', request);
     if(checkError(response)) return;
-    return response.rows;
+    return response;
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
   }
@@ -194,20 +194,21 @@ const converts = (arr) => {
   })
   return result;
 }
-const loadGrid = async () => {
+const loadGrid = async (request) => {
   const headers = getColumnInfo();
-  const rows = await getSearch();
-  const new_row = converts(rows);
-  if(rows.length === 0) alert("No search");
+  const response = await getSearch(request);
+  const new_row = converts(response.rows);
+  if(response.rows.length === 0) alert("No search");
   createLayout(headers, new_row);
-  rows.forEach(item => {
+  createPagination(response.pageInfo);
+  response.rows.forEach(item => {
     const btn = document.getElementById(`${item.id}`);
     btn.style.display = item.Status === 1 ? "block" : "none";
   })
 }
 
 const Search = async () => {
-  await loadGrid();
+  await loadGrid(getRequest());
 }
 
 const getPriceCalUpdateDto = (id) => {
@@ -280,18 +281,16 @@ const checkValue = (request) => {
   return true;
 }
 const Change = async (id) => {
-  const request = getRequest();
   const priceCalUpdateDto = getPriceCalUpdateDto(id);
-  console.log(priceCalUpdateDto);
   if(!checkValue(priceCalUpdateDto)) {
-    await loadGrid();
+    await loadGrid(request);
     return;
   }
   request['priceCalUpdateDto'] = priceCalUpdateDto;
   try {
     const response = await callAPI("priceCalUpdate", request);
     if(checkError(response)) return;
-    await loadGrid();
+    await loadGrid(request);
     alert("Cập Nhật Dữ Liêu Thành Công");
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
@@ -303,7 +302,6 @@ const Output = async (id) => {
   request['id'] = id;
   try {
     let response = await callAPI("priceCalculation", request);
-    console.log(response);
     if(checkError(response)) return;
     // tạo hóa đơn
     request = getRequest();
@@ -311,8 +309,12 @@ const Output = async (id) => {
     response = await callAPI("receiptCreate", request);
     if(checkError(response)) return;
     alert("Tạo Hóa Đơn Mới Thành Công");
-    await loadGrid();
+    await loadGrid(getRequest());
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
   }
+}
+const changePage = async (index) => {
+  request.pageInfo.pageNum = index;
+  await loadGrid(request);
 }

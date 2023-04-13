@@ -57,12 +57,11 @@ const editCustomer = async () => {
   if(document.getElementById('nationalId').value !== customerDetails.nationalId) customerDetails.statusChangeNationalId = 1;
   setDetails();
   request['customerUpdateDto'] = customerDetails;
-  console.log(request);
   try {
     const response = await callAPI('customerUpdate', request);
     if(checkError(response)) return;
     alert('Customer updated successfully');
-    await loadGrid();
+    await loadGrid(getRequest());
   } catch (err) {
     alert("ERROR OUTSIDE SYSTEM")
   }

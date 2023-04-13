@@ -1,11 +1,11 @@
 const items = document.getElementById('content-body');
 (async () => {
   await checkAuth();
-  const rows = await getRows();
-  loadRoom(rows);
+  await loadRoom(getRequest());
   await loadPrice();
 })()
 let lists = [];
+const request = getRequest();
 const roomNoActive = (id, name, price) => {
   return `<div class="room-item">
             <div class="room-item-header">
@@ -69,6 +69,7 @@ const loadDataToDetailModal = async (id) => {
   try {
     const response = await callAPI("roomSearch", request);
     if(checkError(response)) return;
+    console.log(response);
     await addCustomerToSelect('d_list');
     await setDataDetail(response.rows[0]);
   } catch (err) {
@@ -90,9 +91,9 @@ const setDataDetail = async (res) => {
   document.getElementById('d_roomPrice').value = res.price;
 
   const request = getRequest();
+  request.pageInfo.displayNum = 99999999;
   request['customers'] = res.customers === null ? [] : res.customers;
   try {
-    console.log(request);
     const response = await callAPI("customerSearchWithArray", request);
     if(checkError(response)) return;
     loadListDetail(response.rows);
@@ -107,7 +108,7 @@ const loadListDetail = (response) => {
   list.innerHTML = '';
   response.forEach(item => {
     lists.push(item.id);
-    list.innerHTML += `<div class="m-3" id="__${item.n_id}">Họ Tên: ${item.name} || Số Căn Cước: ${item.n_id}</div>`;
+    list.innerHTML += `<div class="m-3" id="__${item.id}">Họ Tên: ${item.customerName} || Số Căn Cước: ${item.nationalId}</div>`;
     }
   );
 }
@@ -207,29 +208,29 @@ const getConditions = () => {
     status: document.getElementById('room-status').value
   }
 }
-const getRows = async () => {
-  const request = getRequest();
+const getRows = async (request) => {
   request['roomSearchConditions'] = getConditions();
   try {
     const response = await callAPI('roomSearch', request);
     if(checkError(response)) return;
-    return response.rows;
+    return response;
   } catch (e) {
     alert("ERROR OUTSIDE SYSTEM \n" + e.message);
   }
 }
-const loadRoom = (rows) => {
+const loadRoom = async (request) => {
+  const response = await getRows(request);
+  if (response.rows.length === 0) alert("No rows found for search");
   let str = '';
-  rows.forEach(row => {
-    if(row.status === 0) str += roomNoActive(row.id, row.roomName, row.price);
+  response.rows.forEach(row => {
+    if (row.status === 0) str += roomNoActive(row.id, row.roomName, row.price);
     else str += roomActive(row.id, row.roomName, row.price);
   })
   items.innerHTML = str === null ? '' : str;
+  createPagination(response.pageInfo);
 }
 const Search = async () => {
-  const rows = await getRows();
-  if(rows.length === 0) alert("No rows found for search");
-  loadRoom(rows);
+  await loadRoom(getRequest());
 }
 const SaveRoom = async () => {
   let request = getRequest();
@@ -308,4 +309,9 @@ const loadPrice = async () => {
   } catch (e) {
     alert("Error: " + e.message);
   }
+}
+
+const changePage = async (index) => {
+  request.pageInfo.pageNum = index;
+  await loadRoom(request);
 }

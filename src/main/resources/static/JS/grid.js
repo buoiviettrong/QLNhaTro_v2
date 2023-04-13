@@ -77,3 +77,34 @@ const createLayout = (headers, rows) => {
   const grid = document.getElementById("grid");
   grid.innerHTML = h + r;
 }
+
+const createPagination = (response) => {
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = '';
+  if(response.totalPage === 0) return;
+  let html = `<ul class="pagination">`;
+  const prev = response.currentPage - 1 <= 0
+    ? `<li class="page-item disabled">
+       <span class="page-link" onclick="changePage(1)">Previous</span>
+     </li>`
+    : `<li class="page-item">
+       <span class="page-link" onclick="changePage(${response.currentPage - 1})">Previous</span>
+     </li>`;
+  html += prev;
+  const start = response.currentPage - +4 <= 0 ? 1 : response.currentPage - +4;
+  const end = response.totalPage < 10 ? response.totalPage : response.currentPage + +4;
+  for (let i = start; i <= end; i++)
+    html += (response.currentPage === i)
+      ? `<li class="page-item active"><span class="page-link" onclick="changePage(${i})">${i}</span></li>`
+      : `<li class="page-item"><span class="page-link" onclick="changePage(${i})">${i}</span></li>`;
+
+  const next = response.currentPage + 1 >= response.totalPage
+    ? `<li class="page-item disabled">
+       <span class="page-link" onclick="changePage(${response.totalPage})">Next</span>
+     </li>`
+    : `<li class="page-item">
+       <span class="page-link" onclick="changePage(${response.currentPage + +1})">Next</span>
+     </li>`;
+  html += next + "</ul>";
+  pagination.innerHTML = html;
+}

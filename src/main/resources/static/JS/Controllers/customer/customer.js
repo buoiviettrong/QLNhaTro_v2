@@ -1,8 +1,9 @@
 const init = (async () => {
    await checkAuth();
-   await loadGrid();
+   await loadGrid(getRequest());
 })()
 let column;
+const request = getRequest();
 const getColumnInfo = () => {
   let headers = [];
 
@@ -93,29 +94,29 @@ const getColumnInfo = () => {
   return headers;
 }
 
-const getSearch = async () => {
-  const request = getRequest();
+const getSearch = async (request) => {
   request['customerSearchConditions'] = {
     search: document.getElementById('search-input').value
   }
   try {
     const response = await callAPI('customerSearch', request);
     if(checkError(response)) return;
-    return response.rows;
+    return response;
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
   }
 }
 
-const loadGrid = async () => {
+const loadGrid = async (request) => {
   const headers = getColumnInfo();
-  const rows = await getSearch();
-  if(rows.length === 0) alert("No search");
-  createLayout(headers, rows);
+  const response = await getSearch(request);
+  if(response.rows.length === 0) alert("No search");
+  createLayout(headers, response.rows);
+  createPagination(response.pageInfo);
 }
 
 const Search = async () => {
-  await loadGrid();
+  await loadGrid(getRequest());
 }
 
 const Delete = async (id) => {
@@ -126,9 +127,13 @@ const Delete = async (id) => {
     console.log(response);
     if(checkError(response)) return;
     alert("Deleted successful");
-    await loadGrid();
+    await loadGrid(getRequest());
   } catch (e) {
     alert("ERROR OUTSIDE SYSTEM" + e.message);
   }
 }
 
+const changePage = async (index) => {
+  request.pageInfo.pageNum = index;
+  await loadGrid(request);
+}

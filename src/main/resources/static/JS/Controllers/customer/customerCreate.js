@@ -64,7 +64,7 @@ const CreateNewCustomer = async () => {
     if(checkError(response)) return;
     alert("Customer created successfully");
     ToggleModal('none');
-    await loadGrid();
+    await loadGrid(getRequest());
   } catch (err) {
     alert("Error Outside System");
   }
