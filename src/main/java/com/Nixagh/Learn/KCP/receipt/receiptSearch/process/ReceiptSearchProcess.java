@@ -29,6 +29,8 @@ public class ReceiptSearchProcess extends AbsProcess {
     String search = receiptSearchRequest.receiptSearchConditions.search;
     PriceDto price = receiptSearchRequest.receiptSearchConditions.price;
     DateDto date = receiptSearchRequest.receiptSearchConditions.date;
+    int receiptStatus = receiptSearchRequest.receiptSearchConditions.receiptStatus;
+
     int pageSize = receiptSearchRequest.pageInfo.displayNum;
     int pageNum = receiptSearchRequest.pageInfo.pageNum;
 
@@ -42,6 +44,9 @@ public class ReceiptSearchProcess extends AbsProcess {
       if (date.start != null && !date.start.equals("")) criteriaList.add(new Criteria("timestamp").gte(ConvertDate.convert(date.start, "yyyy-MM-dd", "dd-MM-yyyy")));
       if (date.end != null && !date.end.equals("")) criteriaList.add(new Criteria("timestamp").lte(ConvertDate.convert(date.end, "yyyy-MM-dd", "dd-MM-yyyy")));
       if (userId != null && !userId.equals("")) criteriaList.add(new Criteria("userId").is(userId));
+      if (receiptStatus != -1)
+        if (receiptStatus == 0) criteriaList.add(new Criteria("remainingMoney").gt(0));
+        else criteriaList.add(new Criteria("remainingMoney").is(0));
       if (search != null && !search.equals(""))
         criteriaOr = new Criteria().orOperator(
                 Criteria.where("roomName").regex(search, "i"),
@@ -54,7 +59,7 @@ public class ReceiptSearchProcess extends AbsProcess {
 
     query.with(Pageable.ofSize(pageSize).withPage(pageNum-1));
     receiptSearchResponse.rows = (ArrayList<ReceiptSearchRows>) mongoTemplate.find(query, ReceiptSearchRows.class, "Receipt");
-
+    System.out.println(query);
     long totalPage = totalElements % pageSize == 0 ? totalElements / pageSize : totalElements / pageSize + 1;
     receiptSearchResponse.pageInfo.totalElements = totalElements;
     receiptSearchResponse.pageInfo.totalPage = totalPage;

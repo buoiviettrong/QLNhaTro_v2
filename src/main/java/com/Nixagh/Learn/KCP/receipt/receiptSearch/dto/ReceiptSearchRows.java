@@ -20,4 +20,6 @@ public class ReceiptSearchRows extends AbsDto {
   public double totalMoneyOfElectric;
   public double totalMoneyOfWater;
   public String timestamp;
+  public double remainingMoney;
+  public double amountPaid;
 }

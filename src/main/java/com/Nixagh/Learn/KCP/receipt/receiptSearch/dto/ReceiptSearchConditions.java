@@ -9,4 +9,5 @@ public class ReceiptSearchConditions extends AbsDto {
   public PriceDto price;
   public DateDto date;
   public String search;
+  public int receiptStatus;
 }

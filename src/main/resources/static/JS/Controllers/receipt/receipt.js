@@ -1,6 +1,6 @@
 const init = (async () => {
   await checkAuth();
-  await loadGrid();
+  await loadGrid(getRequest());
 })()
 let column;
 const getColumnInfo = () => {
@@ -107,7 +107,7 @@ const getColumnInfo = () => {
   headers.push(column);
 
   column = new columnInfo();
-  column.title = "Tổng Thu (Vnđ)";
+  column.title = "Tổng Phải Thu (Vnđ)";
   column.name = "totalRevenue";
   column.dataType = "Text";
   column.width = 100;
@@ -115,15 +115,33 @@ const getColumnInfo = () => {
   column.hidden = false;
   headers.push(column);
 
-  // column = new columnInfo();
-  // column.title = "Hành Động";
-  // column.name = "action";
-  // column.template = `<buton class="btn btn-primary" onclick="Detail('receiptDetailModal', '{id}')" data-bs-toggle="modal" data-bs-target="#myModal">Chi Tiết</buton>`;
-  // column.dataType = "Text";
-  // column.width = 100;
-  // column.align = "center"; // left.center.right
-  // column.hidden = false;
-  // headers.push(column);
+  column = new columnInfo();
+  column.title = "Tiền Thu Còn Lại (Vnđ)";
+  column.name = "remainingMoney";
+  column.dataType = "Text";
+  column.width = 100;
+  column.align = "center"; // left.center.right
+  column.hidden = false;
+  headers.push(column);
+
+  column = new columnInfo();
+  column.title = "Tiền Trả (Vnđ)";
+  column.name = "amountPaid";
+  column.dataType = "Input";
+  column.width = 100;
+  column.align = "center"; // left.center.right
+  column.hidden = false;
+  headers.push(column);
+
+  column = new columnInfo();
+  column.title = "Hành Động";
+  column.name = "action";
+  column.template = `<buton class="btn btn-primary" onclick="Confirm('{id}')" id="btn_{id}">Xác Nhận</buton>`;
+  column.dataType = "Text";
+  column.width = 100;
+  column.align = "center"; // left.center.right
+  column.hidden = false;
+  headers.push(column);
 
   return headers;
 }
@@ -145,7 +163,9 @@ const converts = (arr) => {
       roomPrice: item.roomPrice,
       totalMoney: item.totalMoney,
       totalRevenue: item.totalRevenue,
-      timestamp: item.timestamp
+      timestamp: item.timestamp,
+      remainingMoney: item.remainingMoney,
+      amountPaid: item.amountPaid
     }
     result.push(value);
   })
@@ -161,31 +181,47 @@ const getReceiptSearchConditions = () => {
       start: document.getElementById('startDate').value,
       end: document.getElementById('endDate').value
     },
+    receiptStatus : document.getElementById("receiptStatus").value,
     search: document.getElementById('search-input').value
   }
 }
-const getSearch = async () => {
-  const request = getRequest();
+const getSearch = async (request) => {
   request['receiptSearchConditions'] = getReceiptSearchConditions();
   try {
     const response = await callAPI('receiptSearch', request);
     if(checkError(response)) return;
-    return response.rows;
+    return response;
   } catch (err) {
     alert("Lỗi Ngoài Hệ Thống " + err.message);
   }
 }
 
-const loadGrid = async () => {
+const loadGrid = async (request) => {
   const headers = getColumnInfo();
-  const rows = await getSearch();
+  const response =  await getSearch(request);
+  console.log(response);
+  const rows = response.rows;
   const new_rows = converts(rows);
   if(rows.length === 0) alert("No search");
   createLayout(headers, new_rows);
-}
+  createPagination(response.pageInfo);
 
+  clearButton(new_rows);
+}
+const clearButton = (rows) => {
+  rows.forEach(row => {
+    if(row.remainingMoney === 0) {
+      const HTMLElement = document.getElementById(`btn_${row.id}`);
+      console.log(HTMLElement, row.id);
+      HTMLElement.classList.replace('btn-primary', 'btn-success');
+      HTMLElement.attributes.removeNamedItem("onclick");
+      HTMLElement.innerText = 'Đã Trả';
+      console.log("-----", HTMLElement);
+    }
+  })
+}
 const Search = async () => {
-  await loadGrid();
+  await loadGrid(getRequest());
 }
 
 const Clear = () => {
@@ -194,8 +230,30 @@ const Clear = () => {
   document.getElementById('startDate').value = '';
   document.getElementById('endDate').value = '';
   document.getElementById('search-input').value = '';
+  document.getElementById('receiptStatus').value = -1;
 }
 
 const Detail = (id) => {
 
+}
+const request = getRequest();
+const changePage = async (index) => {
+  request.pageInfo.pageNum = index;
+  await loadGrid(request);
+}
+
+const Confirm = async (id) => {
+  const request = getRequest();
+  request['receiptConfirmDto'] = {
+    id: id,
+    amountPaid: +document.getElementById(`amountPaid_${id}`).value
+  }
+  try {
+    const response = await callAPI('receiptConfirm', request);
+    if(checkError(response)) return;
+    await loadGrid(getRequest());
+    alert("Sửa Thông Tin Thành Công");
+  } catch (e) {
+    alert("Error: " + e.message);
+  }
 }
