@@ -8,7 +8,6 @@ import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
-import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -30,7 +29,7 @@ public class PriceCalUpdateProcess extends AbsProcess {
     query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
 
     Update update = new Update();
-    if(Status != -1) update.set("Status", Status);
+    if (Status != -1) update.set("Status", Status);
     else {
       ElectricIndex indexOfElectric = priceCalUpdateRequest.priceCalUpdateDto.electricIndex;
       WaterIndex indexOfWater = priceCalUpdateRequest.priceCalUpdateDto.waterIndex;

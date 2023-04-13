@@ -15,6 +15,7 @@ public class PriceCalSearchWebService extends AbsWebService {
   public PriceCalSearchResponse create(@RequestBody PriceCalSearchRequest request) {
     return (PriceCalSearchResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new PriceCalSearchProcess();

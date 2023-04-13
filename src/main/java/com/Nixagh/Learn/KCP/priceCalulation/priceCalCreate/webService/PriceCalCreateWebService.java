@@ -15,6 +15,7 @@ public class PriceCalCreateWebService extends AbsWebService {
   public PriceCalCreateResponse create(@RequestBody PriceCalCreateRequest request) {
     return (PriceCalCreateResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new PriceCalCreateProcess();

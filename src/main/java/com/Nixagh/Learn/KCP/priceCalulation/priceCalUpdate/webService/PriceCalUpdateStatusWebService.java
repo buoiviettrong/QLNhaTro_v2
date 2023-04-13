@@ -15,6 +15,7 @@ public class PriceCalUpdateStatusWebService extends AbsWebService {
   public PriceCalUpdateStatusResponse updateStatus(@RequestBody PriceCalUpdateStatusRequest request) {
     return (PriceCalUpdateStatusResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new PriceCalUpdateStatusProcess();

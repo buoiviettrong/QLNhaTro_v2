@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class GetModal {
   @GetMapping("/modal/{name}")
-  public String  getModal(@PathVariable(name = "name") String name) {
+  public String getModal(@PathVariable(name = "name") String name) {
     return name;
   }
 }

@@ -23,7 +23,8 @@ public class CustomerCreateProcess extends AbsProcess {
     query.addCriteria(Criteria.where("userId").is(userId));
     query.addCriteria(Criteria.where("nationalId").is(nationalId));
     var result = mongoTemplate.find(query, Object.class, "Customer");
-    if(result != null && result.size() > 0) customerCreateResponse.addError(new errorDto("CUSTOMER_CREATE", "National ID already exists"));
+    if (result != null && result.size() > 0)
+      customerCreateResponse.addError(new errorDto("CUSTOMER_CREATE", "National ID already exists"));
   }
 
   @Override

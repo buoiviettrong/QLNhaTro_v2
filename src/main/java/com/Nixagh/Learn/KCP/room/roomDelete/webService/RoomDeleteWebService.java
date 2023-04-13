@@ -15,6 +15,7 @@ public class RoomDeleteWebService extends AbsWebService {
   public RoomDeleteResponse create(@RequestBody RoomDeleteRequest request) {
     return (RoomDeleteResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new RoomDeleteProcess();

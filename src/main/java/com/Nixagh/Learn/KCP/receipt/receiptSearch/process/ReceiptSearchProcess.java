@@ -9,7 +9,6 @@ import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
 import com.Nixagh.Learn.common.utilities.ConvertDate;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,12 +36,14 @@ public class ReceiptSearchProcess extends AbsProcess {
     Query query = new Query();
     Criteria criteriaOr = new Criteria();
     ArrayList<Criteria> criteriaList = new ArrayList<Criteria>();
-    if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
+    if (id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
     else {
       if (price.start != 0) criteriaList.add(new Criteria("totalRevenue").gte(price.start));
       if (price.end != 0) criteriaList.add(new Criteria("totalRevenue").lte(price.end));
-      if (date.start != null && !date.start.equals("")) criteriaList.add(new Criteria("timestamp").gte(ConvertDate.convert(date.start, "yyyy-MM-dd", "dd-MM-yyyy")));
-      if (date.end != null && !date.end.equals("")) criteriaList.add(new Criteria("timestamp").lte(ConvertDate.convert(date.end, "yyyy-MM-dd", "dd-MM-yyyy")));
+      if (date.start != null && !date.start.equals(""))
+        criteriaList.add(new Criteria("timestamp").gte(ConvertDate.convert(date.start, "yyyy-MM-dd", "dd-MM-yyyy")));
+      if (date.end != null && !date.end.equals(""))
+        criteriaList.add(new Criteria("timestamp").lte(ConvertDate.convert(date.end, "yyyy-MM-dd", "dd-MM-yyyy")));
       if (userId != null && !userId.equals("")) criteriaList.add(new Criteria("userId").is(userId));
       if (receiptStatus != -1)
         if (receiptStatus == 0) criteriaList.add(new Criteria("remainingMoney").gt(0));
@@ -57,7 +58,7 @@ public class ReceiptSearchProcess extends AbsProcess {
 
     long totalElements = mongoTemplate.count(query, ReceiptSearchRows.class, "Receipt");
 
-    query.with(Pageable.ofSize(pageSize).withPage(pageNum-1));
+    query.with(Pageable.ofSize(pageSize).withPage(pageNum - 1));
     receiptSearchResponse.rows = (ArrayList<ReceiptSearchRows>) mongoTemplate.find(query, ReceiptSearchRows.class, "Receipt");
     System.out.println(query);
     long totalPage = totalElements % pageSize == 0 ? totalElements / pageSize : totalElements / pageSize + 1;
@@ -67,6 +68,9 @@ public class ReceiptSearchProcess extends AbsProcess {
 
     return receiptSearchResponse;
   }
+
   @Override
-  public ReceiptSearchResponse createNewResponse() { return new ReceiptSearchResponse(); }
+  public ReceiptSearchResponse createNewResponse() {
+    return new ReceiptSearchResponse();
+  }
 }

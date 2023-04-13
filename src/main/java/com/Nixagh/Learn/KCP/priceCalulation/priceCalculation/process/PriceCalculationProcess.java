@@ -1,11 +1,8 @@
 package com.Nixagh.Learn.KCP.priceCalulation.priceCalculation.process;
 
-import com.Nixagh.Learn.KCP.priceCalulation.priceCalSearch.dto.PriceCalSearchRow;
 import com.Nixagh.Learn.KCP.priceCalulation.priceCalculation.dto.PriceCalculationRequest;
 import com.Nixagh.Learn.KCP.priceCalulation.priceCalculation.dto.PriceCalculationResponse;
 import com.Nixagh.Learn.KCP.priceCalulation.priceCalculation.dto.PriceCalculationRow;
-import com.Nixagh.Learn.common.dto.ElectricIndex;
-import com.Nixagh.Learn.common.dto.WaterIndex;
 import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
@@ -28,13 +25,13 @@ public class PriceCalculationProcess extends AbsProcess {
     String id = priceCalculationRequest.id;
     String userId = priceCalculationRequest.accessInfo.userId;
 
-    Aggregation aggregation =  Aggregation.newAggregation(
+    Aggregation aggregation = Aggregation.newAggregation(
             Aggregation.match(new Criteria().andOperator(new Criteria("userId").is(userId), new Criteria("_id").is(new ObjectId(id)))),
             Aggregation.lookup("Price", "userId", "userId", "Price")
     );
     try {
       ArrayList<PriceCalculationRow> lst = new ArrayList<PriceCalculationRow>();
-      mongoTemplate.aggregate(aggregation,"PriceCalculator", PriceCalculationRow.class).getMappedResults().forEach(item -> {
+      mongoTemplate.aggregate(aggregation, "PriceCalculator", PriceCalculationRow.class).getMappedResults().forEach(item -> {
         PriceCalculationRow row = new PriceCalculationRow();
         row.id = item.id;
         row.roomName = item.roomName;
@@ -50,29 +47,28 @@ public class PriceCalculationProcess extends AbsProcess {
         row.totalRevenue = (row.totalMoney - row.deposit) < 0 ? 0 : (row.totalMoney - row.deposit);
         lst.add(row);
       });
-        PriceCalculationRow result = new PriceCalculationRow(lst.get(0));
+      PriceCalculationRow result = new PriceCalculationRow(lst.get(0));
 
-        if(result.deposit > result.totalMoney) {
-          result.deposit -= result.totalMoney;
-          lst.get(0).deposit = lst.get(0).totalMoney;
-        }
-        else result.deposit = 0;
-        int temp1 = result.electricIndex.New;
-        int temp2 = result.electricIndex.Old;
-        int temp3 = result.waterIndex.New;
-        int temp4 = result.waterIndex.Old;
+      if (result.deposit > result.totalMoney) {
+        result.deposit -= result.totalMoney;
+        lst.get(0).deposit = lst.get(0).totalMoney;
+      } else result.deposit = 0;
+      int temp1 = result.electricIndex.New;
+      int temp2 = result.electricIndex.Old;
+      int temp3 = result.waterIndex.New;
+      int temp4 = result.waterIndex.Old;
 
-        result.electricIndex.Old = result.electricIndex.New;
-        result.waterIndex.Old = result.waterIndex.New;
+      result.electricIndex.Old = result.electricIndex.New;
+      result.waterIndex.Old = result.waterIndex.New;
 
-        Update update = new Update();
-        update.set("electricIndex.Old", result.electricIndex.Old);
-        update.set("waterIndex.Old", result.waterIndex.Old);
-        update.set("deposit", result.deposit);
+      Update update = new Update();
+      update.set("electricIndex.Old", result.electricIndex.Old);
+      update.set("waterIndex.Old", result.waterIndex.Old);
+      update.set("deposit", result.deposit);
 
-        Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
-        mongoTemplate.updateFirst(query, update, "PriceCalculator");
+      Query query = new Query();
+      query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
+      mongoTemplate.updateFirst(query, update, "PriceCalculator");
       lst.get(0).waterIndex.New = temp3;
       lst.get(0).waterIndex.Old = temp4;
       lst.get(0).electricIndex.New = temp1;

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReceiptCreateWebService extends AbsWebService {
   @PostMapping("receiptCreate")
-  public ReceiptCreateResponse search(@RequestBody ReceiptCreateRequest request) { return (ReceiptCreateResponse) super.executeProcess(request); }
+  public ReceiptCreateResponse search(@RequestBody ReceiptCreateRequest request) {
+    return (ReceiptCreateResponse) super.executeProcess(request);
+  }
   @Override
   protected AbsProcess getProcess() {
     return new ReceiptCreateProcess();

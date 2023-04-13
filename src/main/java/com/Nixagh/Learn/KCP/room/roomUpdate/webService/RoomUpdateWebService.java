@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RoomUpdateWebService extends AbsWebService {
   @PostMapping("roomUpdate")
-  public RoomUpdateResponse search(@RequestBody RoomUpdateRequest request) { return (RoomUpdateResponse) super.executeProcess(request); }
+  public RoomUpdateResponse search(@RequestBody RoomUpdateRequest request) {
+    return (RoomUpdateResponse) super.executeProcess(request);
+  }
+
   @Override
   protected AbsProcess getProcess() {
     return new RoomUpdateProcess();

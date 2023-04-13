@@ -15,6 +15,7 @@ public class ReceiptConfirmWebService extends AbsWebService {
   public ReceiptConfirmResponse confirm(@RequestBody ReceiptConfirmRequest request) {
     return (ReceiptConfirmResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new ReceiptConfirmProcess();

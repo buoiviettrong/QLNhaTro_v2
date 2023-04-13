@@ -25,13 +25,13 @@ public class RoomSearchProcess extends AbsProcess {
     String id = roomSearchRequest.roomSearchConditions.id;
     ArrayList<RoomSearchRows> lst = new ArrayList<>();
     Query query = new Query();
-    if(id != null && !"".equals(id)) query.addCriteria(Criteria.where("id").is(id));
+    if (id != null && !"".equals(id)) query.addCriteria(Criteria.where("id").is(id));
     else {
       String roomName = roomSearchRequest.roomSearchConditions.roomName;
       int status = roomSearchRequest.roomSearchConditions.status;
 
-      if(status != -1) query.addCriteria(Criteria.where("status").is(status));
-      if(roomName != null && !"".equals(roomName)) query.addCriteria(Criteria.where("roomName").is(roomName));
+      if (status != -1) query.addCriteria(Criteria.where("status").is(status));
+      if (roomName != null && !"".equals(roomName)) query.addCriteria(Criteria.where("roomName").is(roomName));
     }
     long totalElements = mongoTemplate.count(query, RoomSearchRows.class, "Room");
     query.skip((pageNum - 1) * pageSize);
@@ -52,6 +52,9 @@ public class RoomSearchProcess extends AbsProcess {
     roomSearchResponse.rows = lst;
     return roomSearchResponse;
   }
+
   @Override
-  public RoomSearchResponse createNewResponse() { return new RoomSearchResponse(); }
+  public RoomSearchResponse createNewResponse() {
+    return new RoomSearchResponse();
+  }
 }

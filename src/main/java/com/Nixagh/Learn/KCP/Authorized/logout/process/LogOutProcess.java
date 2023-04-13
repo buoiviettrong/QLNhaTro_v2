@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class LogOutProcess {
   @Autowired
   MongoTemplate mongoTemplate;
+
   public LogOutResponse logout(LogOutRequest request) {
     String id = request.accessInfo.userId;
     String token = request.accessInfo.token;

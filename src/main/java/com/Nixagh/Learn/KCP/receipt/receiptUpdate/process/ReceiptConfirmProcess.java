@@ -24,13 +24,13 @@ public class ReceiptConfirmProcess extends AbsProcess {
     query.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
     ReceiptResult result = mongoTemplate.findOne(query, ReceiptResult.class, "Receipt");
 
-    if(result == null)
+    if (result == null)
       receiptConfirmResponse.addError(new errorDto("RECEIPT_CONFIRMATION", "ReceiptConfirm failed"));
-    else
-      if(result.remainingMoney < amountPaid)
-        receiptConfirmResponse.addError(new errorDto("RECEIPT_CONFIRMATION", "Số Tiền Nhập Vào Vượt Quá Số Tiền Còn lại"));
+    else if (result.remainingMoney < amountPaid)
+      receiptConfirmResponse.addError(new errorDto("RECEIPT_CONFIRMATION", "Số Tiền Nhập Vào Vượt Quá Số Tiền Còn lại"));
     System.out.println(amountPaid + " " + result.totalRevenue + " " + result.remainingMoney);
   }
+
   @Override
   public ReceiptConfirmResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     ReceiptConfirmRequest requestReceiptConfirm = (ReceiptConfirmRequest) request;
@@ -50,7 +50,11 @@ public class ReceiptConfirmProcess extends AbsProcess {
     }
     return receiptConfirmResponse;
   }
-  public ReceiptConfirmResponse createNewResponse() { return new ReceiptConfirmResponse();}
+
+  public ReceiptConfirmResponse createNewResponse() {
+    return new ReceiptConfirmResponse();
+  }
+
   public class ReceiptResult {
     public double totalRevenue;
     public double remainingMoney;

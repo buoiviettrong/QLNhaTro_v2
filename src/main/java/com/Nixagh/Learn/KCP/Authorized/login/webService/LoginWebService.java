@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LoginWebService{
+public class LoginWebService {
   @Autowired
   LoginProcess loginProcess;
+
   @PostMapping("Login")
   public LoginResponse login(@RequestBody LoginRequest request) {
     return loginProcess.login(request.loginInfo);

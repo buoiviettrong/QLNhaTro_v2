@@ -15,6 +15,7 @@ public class CustomerDeleteWebService extends AbsWebService {
   public CustomerDeleteResponse delete(@RequestBody CustomerDeleteRequest request) {
     return (CustomerDeleteResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new CustomerDeleteProcess();

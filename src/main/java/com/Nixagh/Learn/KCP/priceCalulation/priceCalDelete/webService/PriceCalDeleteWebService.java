@@ -15,6 +15,7 @@ public class PriceCalDeleteWebService extends AbsWebService {
   public PriceCalDeleteResponse create(@RequestBody PriceCalDeleteRequest request) {
     return (PriceCalDeleteResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new PriceCalDeleteProcess();

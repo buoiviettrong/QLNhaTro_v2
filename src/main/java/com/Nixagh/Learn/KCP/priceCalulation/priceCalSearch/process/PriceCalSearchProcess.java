@@ -28,10 +28,10 @@ public class PriceCalSearchProcess extends AbsProcess {
     var roomStatus_ = new Criteria();
     var userId_ = new Criteria("userId").is(userId);
 
-    if(roomName != null && !roomName.isEmpty()) roomName_ = new Criteria("roomName").regex(roomName, "i");
-    if(roomStatus != -1) roomStatus_ = new Criteria("Status").is(roomStatus);
+    if (roomName != null && !roomName.isEmpty()) roomName_ = new Criteria("roomName").regex(roomName, "i");
+    if (roomStatus != -1) roomStatus_ = new Criteria("Status").is(roomStatus);
 
-    Aggregation aggregationForCount =  Aggregation.newAggregation(
+    Aggregation aggregationForCount = Aggregation.newAggregation(
             Aggregation.match(new Criteria().andOperator(roomName_, roomStatus_, userId_)),
             Aggregation.lookup("Price", "userId", "userId", "Price"),
             new CountOperation("totalElements")
@@ -44,7 +44,7 @@ public class PriceCalSearchProcess extends AbsProcess {
     long pageSize = priceCalSearchRequest.pageInfo.displayNum;
     long pageNum = priceCalSearchRequest.pageInfo.pageNum;
 
-    Aggregation aggregation =  Aggregation.newAggregation(
+    Aggregation aggregation = Aggregation.newAggregation(
             Aggregation.match(new Criteria().andOperator(roomName_, roomStatus_, userId_)),
             Aggregation.lookup("Price", "userId", "userId", "Price"),
             new SortOperation(Sort.by("roomName").ascending()),
@@ -53,7 +53,7 @@ public class PriceCalSearchProcess extends AbsProcess {
     );
     System.out.println(aggregation);
     ArrayList<PriceCalSearchRow> lst = new ArrayList<PriceCalSearchRow>();
-    mongoTemplate.aggregate(aggregation,"PriceCalculator", PriceCalSearchRow.class).getMappedResults().forEach(item -> {
+    mongoTemplate.aggregate(aggregation, "PriceCalculator", PriceCalSearchRow.class).getMappedResults().forEach(item -> {
       PriceCalSearchRow row = new PriceCalSearchRow();
       row.id = item.id;
       row.roomName = item.roomName;
@@ -71,7 +71,7 @@ public class PriceCalSearchProcess extends AbsProcess {
     });
 
     priceCalSearchResponse.pageInfo.totalElements = totalElements.get();
-    priceCalSearchResponse.pageInfo.totalPage =  totalElements.get() % pageSize == 0
+    priceCalSearchResponse.pageInfo.totalPage = totalElements.get() % pageSize == 0
             ? totalElements.get() / pageSize
             : totalElements.get() / pageSize + 1;
     priceCalSearchResponse.pageInfo.currentPage = pageNum;
@@ -79,6 +79,7 @@ public class PriceCalSearchProcess extends AbsProcess {
     priceCalSearchResponse.rows = lst;
     return priceCalSearchResponse;
   }
+
   @Override
   public PriceCalSearchResponse createNewResponse() {
     return new PriceCalSearchResponse();

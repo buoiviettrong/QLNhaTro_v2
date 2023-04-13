@@ -1,8 +1,5 @@
 package com.Nixagh.Learn.KCP.customer.customerUpdate.process;
 
-import com.Nixagh.Learn.KCP.customer.customerCreate.dto.CustomerCreateDto;
-import com.Nixagh.Learn.KCP.customer.customerSearch.dto.CustomerSearchRows;
-import com.Nixagh.Learn.KCP.customer.customerUpdate.dto.CustomerUpdateDto;
 import com.Nixagh.Learn.KCP.customer.customerUpdate.dto.CustomerUpdateRequest;
 import com.Nixagh.Learn.KCP.customer.customerUpdate.dto.CustomerUpdateResponse;
 import com.Nixagh.Learn.KCP.customer.customerUpdate.dto.CustomerUpdateSearch;
@@ -14,7 +11,6 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 public class CustomerUpdateProcess extends AbsProcess {
   @Override
@@ -22,7 +18,7 @@ public class CustomerUpdateProcess extends AbsProcess {
     CustomerUpdateRequest customerUpdateRequest = (CustomerUpdateRequest) request;
     CustomerUpdateResponse customerUpdateResponse = (CustomerUpdateResponse) response;
 
-    if(customerUpdateRequest.customerUpdateDto.statusChangeNationalId == 0) return;
+    if (customerUpdateRequest.customerUpdateDto.statusChangeNationalId == 0) return;
 
     String nationalId = customerUpdateRequest.customerUpdateDto.nationalId;
     String userId = customerUpdateRequest.accessInfo.userId;
@@ -31,8 +27,10 @@ public class CustomerUpdateProcess extends AbsProcess {
     query.addCriteria(Criteria.where("userId").is(userId));
 
     var result = mongoTemplate.find(query, Object.class, "Customer");
-    if(!result.isEmpty()) customerUpdateResponse.addError(new errorDto("CUSTOMER_UPDATE", "National ID " + nationalId + " is already"));
+    if (!result.isEmpty())
+      customerUpdateResponse.addError(new errorDto("CUSTOMER_UPDATE", "National ID " + nationalId + " is already"));
   }
+
   @Override
   public CustomerUpdateResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     CustomerUpdateRequest customerUpdateRequest = (CustomerUpdateRequest) request;
@@ -52,10 +50,10 @@ public class CustomerUpdateProcess extends AbsProcess {
       Query query = new Query();
       query.addCriteria(Criteria.where("id").is(new ObjectId(id)));
       query.addCriteria(Criteria.where("userId").is(userId));
-      System.out.println("CUSTOMER UPDATE::::"+query);
+      System.out.println("CUSTOMER UPDATE::::" + query);
       CustomerUpdateSearch result = mongoTemplate.findOne(query, CustomerUpdateSearch.class, "Customer");
 
-      if(result == null) {
+      if (result == null) {
         customerUpdateResponse.addError(new errorDto("CUSTOMER_UPDATE", "Customer ID " + id + " not found"));
         return customerUpdateResponse;
       }
@@ -77,5 +75,7 @@ public class CustomerUpdateProcess extends AbsProcess {
   }
 
   @Override
-  public CustomerUpdateResponse createNewResponse() { return new CustomerUpdateResponse(); }
+  public CustomerUpdateResponse createNewResponse() {
+    return new CustomerUpdateResponse();
+  }
 }

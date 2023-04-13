@@ -9,11 +9,10 @@ import com.Nixagh.Learn.common.process.AbsProcess;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 public class PriceSearchProcess extends AbsProcess {
 
-  public PriceSearchResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response){
+  public PriceSearchResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     PriceSearchRequest priceSearchRequest = (PriceSearchRequest) request;
     PriceSearchResponse priceSearchResponse = (PriceSearchResponse) response;
 
@@ -23,5 +22,8 @@ public class PriceSearchProcess extends AbsProcess {
     priceSearchResponse.row = mongoTemplate.findOne(query, PriceSearchRow.class, "Price");
     return priceSearchResponse;
   }
-  public PriceSearchResponse createNewResponse() {return new PriceSearchResponse();}
+
+  public PriceSearchResponse createNewResponse() {
+    return new PriceSearchResponse();
+  }
 }

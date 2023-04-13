@@ -20,7 +20,7 @@ public class RegisterProcess {
     Query query = new Query();
     query.addCriteria(Criteria.where("username").is(request.registerDto.username));
     var result = mongoTemplate.find(query, Object.class, "User");
-    if(result.size() > 0) {
+    if (result.size() > 0) {
       response.addError(new errorDto("REGISTER", "User already exists"));
       return response;
     }
@@ -28,7 +28,7 @@ public class RegisterProcess {
     query = new Query();
     query.addCriteria(Criteria.where("email").is(request.registerDto.email));
     result = mongoTemplate.find(query, Object.class, "User");
-    if(result.size() > 0) {
+    if (result.size() > 0) {
       response.addError(new errorDto("REGISTER", "User already exists"));
       return response;
     }
@@ -36,7 +36,7 @@ public class RegisterProcess {
     query = new Query();
     query.addCriteria(Criteria.where("phone").is(request.registerDto.phone));
     result = mongoTemplate.find(query, Object.class, "User");
-    if(result.size() > 0) {
+    if (result.size() > 0) {
       response.addError(new errorDto("REGISTER", "User already exists"));
       return response;
     }
@@ -46,7 +46,7 @@ public class RegisterProcess {
   public RegisterResponse register(RegisterRequest request) {
 
     RegisterResponse response = before(request);
-    if(response.getErrorList().size() > 0) return response;
+    if (response.getErrorList().size() > 0) return response;
     try {
       mongoTemplate.save(request.registerDto, "User");
     } catch (Exception e) {

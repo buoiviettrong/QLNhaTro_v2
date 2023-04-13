@@ -25,12 +25,12 @@ public class CustomerSearchProcess extends AbsProcess {
 
     // Create query
     Query query = new Query();
-    if(id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
+    if (id != null && !id.equals("")) query.addCriteria(Criteria.where("id").is(id));
     else {
-        query.addCriteria(new Criteria().orOperator(
-                new Criteria("customerName").regex(search, "i"),
-                new Criteria("roomName").regex(search, "i"),
-                new Criteria("nationalId").regex(search, "i")));
+      query.addCriteria(new Criteria().orOperator(
+              new Criteria("customerName").regex(search, "i"),
+              new Criteria("roomName").regex(search, "i"),
+              new Criteria("nationalId").regex(search, "i")));
     }
     query.addCriteria(new Criteria("userId").is(userId));
 
@@ -49,6 +49,7 @@ public class CustomerSearchProcess extends AbsProcess {
     // Return
     return customerSearchResponse;
   }
+
   @Override
   public CustomerSearchResponse createNewResponse() {
     return new CustomerSearchResponse();

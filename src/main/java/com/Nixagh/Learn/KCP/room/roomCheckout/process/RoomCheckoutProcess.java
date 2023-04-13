@@ -29,13 +29,16 @@ public class RoomCheckoutProcess extends AbsProcess {
     update.set("status", 0);
     update.set("customers", new ArrayList<String>());
     try {
-      mongoTemplate.updateFirst(query, update , "Room");
+      mongoTemplate.updateFirst(query, update, "Room");
     } catch (Exception e) {
       roomCreateResponse.addError(new errorDto("ROOM_CREATE", "Error while creating room"));
     }
 
     return roomCreateResponse;
   }
+
   @Override
-  public RoomCheckoutResponse createNewResponse() { return new RoomCheckoutResponse(); }
+  public RoomCheckoutResponse createNewResponse() {
+    return new RoomCheckoutResponse();
+  }
 }

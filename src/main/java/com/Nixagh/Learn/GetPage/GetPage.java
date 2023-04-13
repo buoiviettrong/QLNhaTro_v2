@@ -7,37 +7,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class GetPage {
   @GetMapping("home")
   public String home() {
-   return "room";
+    return "room";
   }
+
   @GetMapping("login")
   public String login() {
-   return "login";
+    return "login";
   }
 
   @GetMapping("errorPage")
   public String errorPage() {
-   return "errorPage";
+    return "errorPage";
   }
 
   @GetMapping("register")
   public String register() {
-   return "register";
+    return "register";
   }
+
   @GetMapping("room")
   public String room() {
-   return "room";
+    return "room";
   }
+
   @GetMapping("customer")
   public String customer() {
-   return "customer";
+    return "customer";
   }
+
   @GetMapping("receipt")
   public String admin() {
-   return "receipt";
+    return "receipt";
   }
+
   @GetMapping("priceCal")
   public String priceCal() {
-   return "priceCal";
+    return "priceCal";
   }
 
 

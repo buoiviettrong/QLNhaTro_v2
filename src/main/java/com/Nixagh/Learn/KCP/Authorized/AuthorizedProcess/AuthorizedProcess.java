@@ -29,12 +29,13 @@ public class AuthorizedProcess {
     return query;
   }
 
-  public  boolean authorize(AbsRequest request) {
+  public boolean authorize(AbsRequest request) {
     Query query = getQuery(request);
     AuthorizedResult result = mongoTemplate.findOne(query, AuthorizedResult.class, "Authentication");
 
     return result != null;
   }
+
   public boolean authorize(MongoTemplate mongoTemplate, AbsRequest request) {
     Query query = getQuery(request);
     AuthorizedResult result = mongoTemplate.findOne(query, AuthorizedResult.class, "Authentication");

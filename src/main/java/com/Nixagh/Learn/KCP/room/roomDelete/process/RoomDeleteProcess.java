@@ -27,5 +27,8 @@ public class RoomDeleteProcess extends AbsProcess {
 
     return roomDeleteResponse;
   }
-  public RoomDeleteResponse createNewResponse() {return new RoomDeleteResponse(); }
+
+  public RoomDeleteResponse createNewResponse() {
+    return new RoomDeleteResponse();
+  }
 }

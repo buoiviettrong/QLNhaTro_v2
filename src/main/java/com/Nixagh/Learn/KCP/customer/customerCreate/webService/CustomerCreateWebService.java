@@ -16,6 +16,7 @@ public class CustomerCreateWebService extends AbsWebService {
     System.out.println(request.customerCreateDto.customerName);
     return (CustomerCreateResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new CustomerCreateProcess();

@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 public class PriceUpdateProcess extends AbsProcess {
 
-  public PriceUpdateResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response){
+  public PriceUpdateResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     PriceUpdateRequest priceUpdateRequest = (PriceUpdateRequest) request;
     PriceUpdateResponse priceUpdateResponse = (PriceUpdateResponse) response;
 
@@ -28,5 +28,8 @@ public class PriceUpdateProcess extends AbsProcess {
     mongoTemplate.updateFirst(query, update, "Price");
     return priceUpdateResponse;
   }
-  public PriceUpdateResponse createNewResponse() {return new PriceUpdateResponse();}
+
+  public PriceUpdateResponse createNewResponse() {
+    return new PriceUpdateResponse();
+  }
 }

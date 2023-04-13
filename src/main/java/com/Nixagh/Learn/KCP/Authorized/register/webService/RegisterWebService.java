@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterWebService {
   @Autowired
   RegisterProcess registerProcess;
+
   @PostMapping("register")
   public RegisterResponse register(@RequestBody RegisterRequest request) {
     return registerProcess.register(request);

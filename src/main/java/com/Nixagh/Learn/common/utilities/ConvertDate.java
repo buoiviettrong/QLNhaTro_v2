@@ -15,6 +15,7 @@ public class ConvertDate {
     }
     return "";
   }
+
   public static String convert(Date date, String from, String to) {
     try {
       DateFormat formatter = new SimpleDateFormat(from);
@@ -24,6 +25,7 @@ public class ConvertDate {
     }
     return "";
   }
+
   public static String convert(String date, String from, String to) {
     try {
       DateFormat formatter = new SimpleDateFormat(from);

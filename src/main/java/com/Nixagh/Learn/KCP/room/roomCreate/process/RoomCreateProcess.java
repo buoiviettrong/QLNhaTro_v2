@@ -25,11 +25,12 @@ public class RoomCreateProcess extends AbsProcess {
 
     try {
       var result = mongoTemplate.find(query, Object.class, "Room");
-      if(result.size() > 0) roomCreateResponse.addError(new errorDto("ROOM_CREATE", "Room name is already"));
+      if (result.size() > 0) roomCreateResponse.addError(new errorDto("ROOM_CREATE", "Room name is already"));
     } catch (Exception e) {
       roomCreateResponse.addError(new errorDto("ROOM_CREATE", "Error while search in creating room"));
     }
   }
+
   @Override
   public RoomCreateResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     RoomCreateRequest roomCreateRequest = (RoomCreateRequest) request;
@@ -45,6 +46,9 @@ public class RoomCreateProcess extends AbsProcess {
 
     return roomCreateResponse;
   }
+
   @Override
-  public RoomCreateResponse createNewResponse() { return new RoomCreateResponse(); }
+  public RoomCreateResponse createNewResponse() {
+    return new RoomCreateResponse();
+  }
 }

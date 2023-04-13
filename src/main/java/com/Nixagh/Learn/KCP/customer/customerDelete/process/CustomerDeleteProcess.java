@@ -25,8 +25,10 @@ public class CustomerDeleteProcess extends AbsProcess {
     query.addCriteria(Criteria.where("userId").is(userId));
 
     var result = mongoTemplate.find(query, Object.class, "Customer");
-    if(result == null) customerDeleteResponse.addError(new errorDto("CUSTOMER_DELETE", "Customer Id " + id + " not found"));
+    if (result == null)
+      customerDeleteResponse.addError(new errorDto("CUSTOMER_DELETE", "Customer Id " + id + " not found"));
   }
+
   @Override
   public CustomerDeleteResponse process(MongoTemplate mongoTemplate, AbsRequest request, AbsResponse response) {
     CustomerDeleteResponse customerDeleteResponse = (CustomerDeleteResponse) response;
@@ -44,6 +46,9 @@ public class CustomerDeleteProcess extends AbsProcess {
 
     return customerDeleteResponse;
   }
+
   @Override
-  public CustomerDeleteResponse createNewResponse() { return new CustomerDeleteResponse(); }
+  public CustomerDeleteResponse createNewResponse() {
+    return new CustomerDeleteResponse();
+  }
 }

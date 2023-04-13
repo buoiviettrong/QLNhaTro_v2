@@ -15,6 +15,7 @@ public class CustomerUpdateWebService extends AbsWebService {
   public CustomerUpdateResponse update(@RequestBody CustomerUpdateRequest request) {
     return (CustomerUpdateResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new CustomerUpdateProcess();

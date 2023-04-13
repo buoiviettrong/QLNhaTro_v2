@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogOutWebService {
   @Autowired
   LogOutProcess logoutProcess;
+
   @PostMapping("logout")
-  public LogOutResponse logout(@RequestBody LogOutRequest request) { return logoutProcess.logout(request); }
+  public LogOutResponse logout(@RequestBody LogOutRequest request) {
+    return logoutProcess.logout(request);
+  }
 }

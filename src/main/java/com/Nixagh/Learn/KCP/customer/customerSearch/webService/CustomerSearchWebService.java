@@ -16,6 +16,7 @@ public class CustomerSearchWebService extends AbsWebService {
   public CustomerSearchResponse search(@RequestBody CustomerSearchRequest request) {
     return (CustomerSearchResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new CustomerSearchProcess();

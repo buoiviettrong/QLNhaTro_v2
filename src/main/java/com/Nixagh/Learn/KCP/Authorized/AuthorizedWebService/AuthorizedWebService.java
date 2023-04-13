@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorizedWebService {
   @Autowired
   AuthorizedProcess authorizedProcess;
+
   @PostMapping("Authorized")
   public boolean authorize(@RequestBody AbsRequest request) {
     return authorizedProcess.authorize(request);

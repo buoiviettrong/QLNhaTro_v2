@@ -6,7 +6,6 @@ import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -29,5 +28,8 @@ public class PriceCalDeleteProcess extends AbsProcess {
 
     return roomDeleteResponse;
   }
-  public PriceCalDeleteResponse createNewResponse() {return new PriceCalDeleteResponse(); }
+
+  public PriceCalDeleteResponse createNewResponse() {
+    return new PriceCalDeleteResponse();
+  }
 }

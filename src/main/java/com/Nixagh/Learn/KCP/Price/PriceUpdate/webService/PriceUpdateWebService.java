@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PriceUpdateWebService extends AbsWebService {
   @PostMapping("priceUpdate")
-  public PriceUpdateResponse update(@RequestBody PriceUpdateRequest request) { return (PriceUpdateResponse) super.executeProcess(request); }
+  public PriceUpdateResponse update(@RequestBody PriceUpdateRequest request) {
+    return (PriceUpdateResponse) super.executeProcess(request);
+  }
+
   @Override
   protected AbsProcess getProcess() {
     return new PriceUpdateProcess();

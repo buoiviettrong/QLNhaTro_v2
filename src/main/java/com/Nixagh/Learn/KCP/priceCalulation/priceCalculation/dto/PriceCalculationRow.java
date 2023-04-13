@@ -21,7 +21,9 @@ public class PriceCalculationRow extends AbsDto {
   public double totalMoneyOfElectric;
   public double totalMoneyOfWater;
 
-  public PriceCalculationRow() {};
+  public PriceCalculationRow() {
+  }
+
   public PriceCalculationRow(PriceCalculationRow row) {
     this.id = row.id;
     this.roomName = row.roomName;
@@ -35,5 +37,6 @@ public class PriceCalculationRow extends AbsDto {
     this.totalRevenue = (row.totalMoney - row.deposit) < 0 ? 0 : (row.totalMoney - row.deposit);
     this.totalMoneyOfElectric = (row.electricIndex.New - row.electricIndex.Old) * row.Price.get(0).priceOfElectric;
     this.totalMoneyOfWater = (row.waterIndex.New - row.waterIndex.Old) * row.Price.get(0).priceOfWater;
-  };
+  }
+
 }

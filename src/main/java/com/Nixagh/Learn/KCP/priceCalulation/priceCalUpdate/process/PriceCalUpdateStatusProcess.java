@@ -6,7 +6,6 @@ import com.Nixagh.Learn.common.dto.errorDto;
 import com.Nixagh.Learn.common.dto.request.AbsRequest;
 import com.Nixagh.Learn.common.dto.response.AbsResponse;
 import com.Nixagh.Learn.common.process.AbsProcess;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,8 +22,8 @@ public class PriceCalUpdateStatusProcess extends AbsProcess {
     int status = priceCalUpdateStatusRequest.priceCalUpdateStatusConditions.status;
 
     Query query = new Query();
-    if(roomName != null && !roomName.isBlank()) query.addCriteria(Criteria.where("roomName").is(roomName));
-    if(roomId != null && !roomId.isBlank()) query.addCriteria(Criteria.where("roomId").is(roomId));
+    if (roomName != null && !roomName.isBlank()) query.addCriteria(Criteria.where("roomName").is(roomName));
+    if (roomId != null && !roomId.isBlank()) query.addCriteria(Criteria.where("roomId").is(roomId));
     Update update = new Update();
     update.set("Status", status);
     try {
@@ -35,6 +34,7 @@ public class PriceCalUpdateStatusProcess extends AbsProcess {
     }
     return priceCalUpdateStatusResponse;
   }
+
   public PriceCalUpdateStatusResponse createNewResponse() {
     return new PriceCalUpdateStatusResponse();
   }

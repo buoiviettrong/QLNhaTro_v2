@@ -15,6 +15,7 @@ public class RoomCheckoutWebService extends AbsWebService {
   public RoomCheckoutResponse create(@RequestBody RoomCheckoutRequest request) {
     return (RoomCheckoutResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new RoomCheckoutProcess();

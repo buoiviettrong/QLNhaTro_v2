@@ -20,9 +20,6 @@ public class LoginProcess {
   @Autowired
   MongoTemplate mongoTemplate;
 
-  public class R extends LoginResult{
-    public String password;
-  }
   public LoginResponse login(LoginInfo info) {
     LoginResponse response = new LoginResponse();
 
@@ -39,7 +36,7 @@ public class LoginProcess {
       response.addError(new errorDto("LOGIN_FAILED", "UserName: \"" + username + "\" does not exist"));
       return response;
     }
-    if(!result.password.equals(password)) {
+    if (!result.password.equals(password)) {
       response.addError(new errorDto("LOGIN_FAILED", "Password does not match"));
       return response;
     }
@@ -54,5 +51,9 @@ public class LoginProcess {
     mongoTemplate.save(response.loginResult, "Authentication");
 
     return response;
+  }
+
+  public class R extends LoginResult {
+    public String password;
   }
 }

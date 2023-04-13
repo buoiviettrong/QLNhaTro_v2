@@ -15,6 +15,7 @@ public class RoomCreateWebService extends AbsWebService {
   public RoomCreateResponse create(@RequestBody RoomCreateRequest request) {
     return (RoomCreateResponse) super.executeProcess(request);
   }
+
   @Override
   protected AbsProcess getProcess() {
     return new RoomCreateProcess();
