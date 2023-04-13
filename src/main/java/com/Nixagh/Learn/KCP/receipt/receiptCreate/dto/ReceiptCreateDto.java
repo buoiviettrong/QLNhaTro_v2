@@ -18,4 +18,6 @@ public class ReceiptCreateDto extends AbsDto {
   public ArrayList<EWPrice> Price;
   public String userId;
   public String timestamp;
+  public double remainingMoney;
+  public double amountPaid;
 }

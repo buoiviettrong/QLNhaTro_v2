@@ -24,6 +24,7 @@ public class ReceiptCreateProcess extends AbsProcess {
     String userId = receiptCreateRequest.accessInfo.userId;
     receiptCreateRequest.receiptCreateDto.userId = userId;
     receiptCreateRequest.receiptCreateDto.timestamp = ConvertDate.convert(new Date(), "dd-MM-yyyy");
+    receiptCreateRequest.receiptCreateDto.remainingMoney = receiptCreateRequest.receiptCreateDto.totalRevenue;
     try {
       mongoTemplate.save(receiptCreateRequest.receiptCreateDto, "Receipt");
     } catch (Exception e) {
