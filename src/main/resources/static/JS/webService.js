@@ -1,4 +1,4 @@
-const baseUrls = `http://localhost:5000`;
+const baseUrls = `https://qlnhatrov2-production.up.railway.app`;
 
 const callAPI = async (funcName, req) => {
   const response = await fetch(`${baseUrls}/${funcName}`, {
