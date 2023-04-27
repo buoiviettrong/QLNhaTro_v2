@@ -1,4 +1,4 @@
-const baseUrls = window.location.hostname;
+const baseUrls = `https://qlnhatrov2.up.railway.app`;
 
 const callAPI = async (funcName, req) => {
   const response = await fetch(`${baseUrls}/${funcName}`, {
